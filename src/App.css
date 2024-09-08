@@ -2,6 +2,9 @@
 .App {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 body {
@@ -51,12 +54,16 @@ nav a {
 }
 
 main {
-  background-color: rgba(25, 25, 25, 0.8); /* Increased opacity and darkness */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(30, 30, 30, 0.418); /* Increased opacity and darkness */
   padding: 20px;
   border-radius: 8px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.651);
+
   padding-bottom: 120px; /* Adjust this value based on your banner height plus some extra space */
 }
 
@@ -173,6 +180,7 @@ header h1, nav a, main {
 }
 
 .content-wrapper {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -296,8 +304,8 @@ body {
   width: 100%;
   height: 100px; /* Adjust this value if you want a different height */
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.5);
   margin-top: 20px; /* Add some space above the banner */
+  border-radius: 5px; /* This adds the 5px border radius to the banner as a whole */
 }
 
 .image-container {
@@ -308,6 +316,7 @@ body {
 .image-container img {
   height: 100px;
   margin-right: 10px;
+  border-radius: 5px; /* This adds the 5px border radius to the images */
 }
 
 @keyframes scroll {

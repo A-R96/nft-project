@@ -24,8 +24,8 @@ function App() {
           <SaleSection />
           <WalletBalance />
         </div>
-        <ImageBanner />
       </main>
+      <ImageBanner />
     </div>
   );
 }
