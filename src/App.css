@@ -1,38 +1,331 @@
+/* Add this at the top of the file */
 .App {
+  position: relative;
+  z-index: 1;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for better contrast */
+  font-family: Arial, sans-serif;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: rgba(30, 30, 30, 0.418); /* Increased transparency */
+  padding: 30px 20px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.651);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header h1 {
+  margin: 0 0 20px 0;
+  font-size: 48px; /* Even larger */
+  color: #ffffff; /* Ensure the text is fully opaque */
+  font-weight: bold; /* Make it bold for more emphasis */
+  text-transform: uppercase; /* Optional: makes it all caps for a stronger look */
+  letter-spacing: 2px; /* Optional: adds some spacing between letters */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav a {
+  color: #ffffff; /* Ensure the text is fully opaque */
+  text-decoration: none;
+  font-weight: bold; /* Make the text a bit bolder for better visibility */
+}
+
+main {
+  background-color: rgba(25, 25, 25, 0.8); /* Increased opacity and darkness */
+  padding: 20px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding-bottom: 120px; /* Adjust this value based on your banner height plus some extra space */
+}
+
+main * {
+  color: #ffffff;
+}
+
+.tables-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 20px;
+}
+
+#traits, #rarities {
+  flex: 1;
+  max-width: 480px;
+}
+
+table {
+  background-color: rgba(35, 35, 35, 0.8); /* Increased opacity and darkness */
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: rgba(45, 45, 45, 0.8); /* Increased opacity and darkness */
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+input[type="number"] {
+  background-color: rgba(45, 45, 45, 0.8); /* Increased opacity and darkness */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Slightly more visible border */
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+#sale {
+  background-color: rgba(35, 35, 35, 0.8); /* Increased opacity and darkness */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center; /* Center the content */
+  max-width: 400px; /* Limit the width for better appearance */
+  margin: 0 auto; /* Center the section horizontally */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#sale h2 {
+  margin-bottom: 20px;
+}
+
+#sale div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#sale label {
+  font-weight: bold;
+}
+
+#sale input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+}
+
+#sale button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+header h1, nav a, main {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.content-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.left-content, .right-content {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+#description, #sale, .wallet-balance {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#description, #traits, #rarities, .wallet-balance {
+  text-align: center;
+}
+
+.wallet-balance {
+  background-color: rgba(35, 35, 35, 0.8); /* Increased opacity and darkness */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.balance-container {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.balance-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balance-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: rgba(45, 45, 45, 0.8); /* Increased opacity and darkness */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.balance-amount {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4CAF50;
+  display: inline-block;
+  width: 60px; /* Adjust this value as needed */
+  text-align: center;
+}
+
+.balance-label {
+  font-size: 14px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* Remove spinner buttons for webkit browsers (Chrome, Safari, newer versions of Opera) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinner buttons for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Style the number input to match your design */
+#sale input[type="number"] {
+  background-color: rgba(42, 42, 42, 0.3); /* Increased transparency */
+  border: 1px solid #555;
   color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 60px; /* Adjust as needed */
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+/* Optional: Style the input on focus */
+#sale input[type="number"]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Optional: Add hover effect to interactive elements */
+table:hover, #sale:hover, .wallet-balance:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Ensure text is still readable */
+body, h1, h2, h3, p, table, th, td, input, button {
+  color: rgba(255, 255, 255, 1); /* Fully opaque white for maximum contrast */
+}
+
+/* Adjusted text shadow for better readability */
+body {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Remove any fixed positioning from the banner */
+.image-banner {
+  width: 100%;
+  height: 100px; /* Adjust this value if you want a different height */
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 20px; /* Add some space above the banner */
+}
+
+.image-container {
+  display: flex;
+  animation: scroll 120s linear infinite;
+}
+
+.image-container img {
+  height: 100px;
+  margin-right: 10px;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: translateX(-50%);
   }
+}
+
+/* Ensure the main content takes up the full viewport height */
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
 }
