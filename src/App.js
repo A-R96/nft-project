@@ -28,9 +28,9 @@ function App() {
           </div>
           <SaleSection />
           <WalletBalance />
+          <ImageBanner /> {/* Moved here */}
         </div>
       </main>
-      <ImageBanner />
       <button id="back-to-top" aria-label="Back to top">↑</button>
     </div>
   );

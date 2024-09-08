@@ -64,7 +64,7 @@ main {
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.651);
 
-  padding-bottom: 120px; /* Adjust this value based on your banner height plus some extra space */
+  padding-bottom: 20px; /* Adjust this value based on your banner height plus some extra space */
 }
 
 main * {
@@ -211,7 +211,7 @@ header h1, nav a, main {
   max-width: 400px;
   margin: 20px auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 0px; /* Adjust this value to control the space */
+  margin-bottom: 15px; /* Adjust this value to control the space */
 }
 
 .balance-container {
@@ -305,13 +305,14 @@ body {
   width: 100%;
   height: 100px; /* Adjust this value if you want a different height */
   overflow: hidden;
-  margin-top: 20px; /* Add some space above the banner */
+  margin-top: 35px; /* Add some space above the banner */
   border-radius: 5px; /* This adds the 5px border radius to the banner as a whole */
+  margin-bottom: 0px;
 }
 
 .image-container {
   display: flex;
-  animation: scroll 120s linear infinite;
+  animation: scroll 60s linear infinite; /* Changed from 120s to 60s */
 }
 
 .image-container img {
@@ -321,12 +322,12 @@ body {
 }
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+   0% {
+     transform: translateX(0);
+   }
+   100% {
+     transform: translateX(-50%);
+   }
 }
 
 /* Ensure the main content takes up the full viewport height */
