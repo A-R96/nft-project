@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { initBackToTop } from './BackToTop';
 import Header from './components/Header';
 import ProjectDescription from './components/ProjectDescription';
 import TraitsTable from './components/TraitsTable';
@@ -10,6 +11,10 @@ import ImageBanner from './components/ImageBanner';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    initBackToTop();
+  }, []);
+
   return (
     <div className="App">
       <Background />
@@ -26,6 +31,7 @@ function App() {
         </div>
       </main>
       <ImageBanner />
+      <button id="back-to-top" aria-label="Back to top">↑</button>
     </div>
   );
 }
