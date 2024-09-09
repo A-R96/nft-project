@@ -17,7 +17,7 @@ function App() {
   const [accountAddress, setAccountAddress] = useState('');
 
   useEffect(() => {
-    rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
+    rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1));
 
     const subscription = rdt.walletApi.walletData$.subscribe({
       next: (walletData) => {
