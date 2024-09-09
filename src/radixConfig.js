@@ -11,6 +11,5 @@ export const rdt = RadixDappToolkit({
 
 console.log('RadixDappToolkit initialized:', rdt)
 
-// Remove the DataRequestBuilder export
-// export const dataRequestBuilder = DataRequestBuilder.create()
+
 

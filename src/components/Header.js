@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Header() {
+function Header({ onConnectClick }) {
   return (
     <header>
       <div className="header-content">
@@ -15,7 +15,7 @@ function Header() {
         </nav>
       </div>
       <div className="connect-button-wrapper">
-        <radix-connect-button />
+        <radix-connect-button onClick={onConnectClick} />
       </div>
     </header>
   );
