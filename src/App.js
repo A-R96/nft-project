@@ -18,13 +18,32 @@ function App() {
   useEffect(() => {
     initBackToTop();
 
-    const updateWalletState = () => {
+    const updateWalletState = async () => {
       const state = rdt.walletApi.getWalletData();
-      setConnected(state.connected);
-      if (state.connected && state.accounts.length > 0) {
-        setAccountAddress(state.accounts[0].address);
+      console.log("Wallet state:", state);
+
+      if (state.connected) {
+        try {
+          const accounts = await rdt.requestAccounts();
+          console.log("Requested accounts:", accounts);
+          if (accounts && accounts.length > 0) {
+            setConnected(true);
+            setAccountAddress(accounts[0].address);
+            console.log("Connected account:", accounts[0].address);
+          } else {
+            setConnected(false);
+            setAccountAddress('');
+            console.log("No accounts shared");
+          }
+        } catch (error) {
+          console.error("Error requesting accounts:", error);
+          setConnected(false);
+          setAccountAddress('');
+        }
       } else {
+        setConnected(false);
         setAccountAddress('');
+        console.log("Wallet disconnected");
       }
     };
 

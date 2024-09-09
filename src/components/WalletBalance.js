@@ -6,29 +6,59 @@ function WalletBalance({ connected, accountAddress }) {
   const [nftBalance, setNftBalance] = useState(0);
 
   useEffect(() => {
+    console.log("WalletBalance effect triggered");
     if (connected && accountAddress) {
       const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
-      const nftAddress = 'resource_tdx_2_1nfxxxxxxxxxxcapyclubxxxxxxxxx000999665565xxxxxxxxxtfd2jc'; // Replace with your actual NFT resource address
+      const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx'; // CAPYCLUB resource address
 
-      rdt.api.dataRequest({
-        accounts: {
-          address: accountAddress,
-          fungible_resources: [{ resource_address: xrdAddress }],
-          non_fungible_resources: [{ resource_address: nftAddress }]
-        }
-      }).subscribe({
-        next: (response) => {
-          const xrdAmount = response.accounts[0]?.fungible_resources[0]?.amount || '0';
-          const nftCount = response.accounts[0]?.non_fungible_resources[0]?.vaults[0]?.items?.length || 0;
-          setXrdBalance(parseInt(xrdAmount) / 1e18);
-          setNftBalance(nftCount);
-        },
-        error: (error) => console.error('Error fetching balances:', error)
+      console.log("Fetching balances for account:", accountAddress);
+      rdt.api.gatewayApi.state.getEntityDetailsVaultAggregated({
+        stateEntityId: accountAddress,
+        aggregationLevel: 'Vault',
+      }).then(response => {
+        console.log("API response:", response);
+        const fungibleResources = response.fungible_resources?.items || [];
+        const nonFungibleResources = response.non_fungible_resources?.items || [];
+
+        const xrdResource = fungibleResources.find(r => r.resource_address === xrdAddress);
+        const nftResource = nonFungibleResources.find(r => r.resource_address === nftAddress);
+
+        const newXrdBalance = xrdResource ? parseInt(xrdResource.vaults[0].amount) / 1e18 : 0;
+        const newNftBalance = nftResource ? nftResource.vaults[0].items.length : 0;
+
+        console.log("New balances - XRD:", newXrdBalance, "NFT:", newNftBalance);
+
+        setXrdBalance(newXrdBalance);
+        setNftBalance(newNftBalance);
+      }).catch(error => {
+        console.error('Error fetching balances:', error);
       });
+    } else {
+      console.log("Wallet not connected or no account address");
+      setXrdBalance(0);
+      setNftBalance(0);
     }
   }, [connected, accountAddress]);
 
-  // ... rest of the component remains the same
+  return (
+    <div className="wallet-balance">
+      <h2>Wallet Balance</h2>
+      <div className="balance-container">
+        <div className="balance-item">
+          <div className="balance-circle">
+            <span className="balance-amount">{xrdBalance.toFixed(2)}</span>
+          </div>
+          <span className="balance-label">XRD</span>
+        </div>
+        <div className="balance-item">
+          <div className="balance-circle">
+            <span className="balance-amount">{nftBalance}</span>
+          </div>
+          <span className="balance-label">CAPYCLUB</span>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default WalletBalance;
