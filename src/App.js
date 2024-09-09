@@ -18,6 +18,7 @@ function App() {
   useEffect(() => {
     initBackToTop();
 
+    
     const updateWalletState = async () => {
       const state = rdt.walletApi.getWalletData();
       console.log("Wallet state:", state);
