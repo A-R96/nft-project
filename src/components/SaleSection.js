@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { rdt } from '../radixConfig';
 
-function SaleSection() {
+function SaleSection({ connected, accountAddress }) {
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (e) => {
@@ -8,9 +9,32 @@ function SaleSection() {
     setQuantity(value > 10 ? 10 : value < 1 ? 1 : value);
   };
 
-  const handleBuy = () => {
-    // Implement buy functionality here
-    console.log(`Buying ${quantity} NFTs`);
+  const handleBuy = async () => {
+    if (!connected) {
+      alert('Please connect your wallet first.');
+      return;
+    }
+
+    const componentAddress = 'component_tdx_2_1cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+    const methodName = 'buy_nft';
+
+    try {
+      const manifest = `
+        CALL_METHOD
+          Address("${componentAddress}")
+          "${methodName}"
+          Address("${accountAddress}")
+          Decimal("${quantity}")
+      `;
+
+      const result = await rdt.sendTransaction({ transactionManifest: manifest });
+
+      console.log('Transaction result:', result);
+      alert(`Successfully purchased ${quantity} NFT(s)!`);
+    } catch (error) {
+      console.error('Transaction error:', error);
+      alert('Failed to purchase NFTs. Please try again.');
+    }
   };
 
   return (
@@ -27,7 +51,7 @@ function SaleSection() {
           onChange={handleQuantityChange}
         />
       </div>
-      <button onClick={handleBuy}>Buy Now</button>
+      <button onClick={handleBuy} disabled={!connected}>Buy Now</button>
     </section>
   );
 }

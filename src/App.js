@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { initBackToTop } from './BackToTop';
 import Header from './components/Header';
 import ProjectDescription from './components/ProjectDescription';
@@ -8,11 +8,34 @@ import SaleSection from './components/SaleSection';
 import WalletBalance from './components/WalletBalance';
 import Background from './components/Background';
 import ImageBanner from './components/ImageBanner';
+import { rdt } from './radixConfig';
 import './App.css';
 
 function App() {
+  const [connected, setConnected] = useState(false);
+  const [accountAddress, setAccountAddress] = useState('');
+
   useEffect(() => {
     initBackToTop();
+
+    const updateWalletState = () => {
+      const state = rdt.walletApi.getWalletData();
+      setConnected(state.connected);
+      if (state.connected && state.accounts.length > 0) {
+        setAccountAddress(state.accounts[0].address);
+      } else {
+        setAccountAddress('');
+      }
+    };
+
+    // Initial update
+    updateWalletState();
+
+    // Set up interval to check wallet state periodically
+    const intervalId = setInterval(updateWalletState, 1000);
+
+    // Clean up interval
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -26,9 +49,9 @@ function App() {
             <TraitsTable />
             <RaritiesTable />
           </div>
-          <SaleSection />
-          <WalletBalance />
-          <ImageBanner /> {/* Moved here */}
+          <SaleSection connected={connected} accountAddress={accountAddress} />
+          <WalletBalance connected={connected} accountAddress={accountAddress} />
+          <ImageBanner />
         </div>
       </main>
       <button id="back-to-top" aria-label="Back to top">↑</button>
