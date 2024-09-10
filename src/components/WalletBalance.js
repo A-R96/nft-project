@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit';
+import React, { useEffect, useState, useCallback } from 'react';
+import './WalletBalance.css';
 
-function WalletBalance({ connected, accountAddress, rdt }) {
+function WalletBalance({ connected, walletData, rdt }) {
   const [xrdBalance, setXrdBalance] = useState(0);
   const [nftBalance, setNftBalance] = useState(0);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    console.log('WalletBalance: connected =', connected, 'accountAddress =', accountAddress);
-    console.log('WalletBalance: rdt =', rdt);
-    console.log('WalletBalance: rdt.gatewayApi =', rdt?.gatewayApi);
+  const accountAddress = walletData?.accounts?.[0]?.address || '';
+  const accountLabel = walletData?.accounts?.[0]?.label || '';
 
-    if (connected && accountAddress && rdt && rdt.gatewayApi) {
-      fetchBalances(accountAddress);
-    } else {
-      console.log('Conditions not met for fetching balances:');
-      console.log('- connected:', connected);
-      console.log('- accountAddress:', accountAddress);
-      console.log('- rdt:', !!rdt);
-      console.log('- rdt.gatewayApi:', rdt && !!rdt.gatewayApi);
-    }
-  }, [connected, accountAddress, rdt]);
-
-  async function fetchBalances(address) {
+  const fetchBalances = useCallback(async (address) => {
     const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
     const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx';
 
@@ -48,7 +35,6 @@ function WalletBalance({ connected, accountAddress, rdt }) {
       }
 
       const data = await response.json();
-      console.log('API Response:', data);
 
       if (data.items && data.items.length > 0) {
         const accountDetails = data.items[0];
@@ -58,13 +44,12 @@ function WalletBalance({ connected, accountAddress, rdt }) {
         const xrdResource = fungibleResources.find(r => r.resource_address === xrdAddress);
         const nftResource = nonFungibleResources.find(r => r.resource_address === nftAddress);
 
-        console.log('XRD Resource:', xrdResource);
-        console.log('NFT Resource:', nftResource);
+        if (xrdResource && xrdResource.vaults.items.length > 0) {
+          const newXrdBalance = parseFloat(xrdResource.vaults.items[0].amount);
+          setXrdBalance(newXrdBalance);
+        }
 
-        const newXrdBalance = xrdResource ? parseInt(xrdResource.vaults.items[0].amount) / 1e18 : 0;
         const newNftBalance = nftResource ? nftResource.vaults.items[0].total_count : 0;
-
-        setXrdBalance(newXrdBalance);
         setNftBalance(newNftBalance);
         setError(null);
       } else {
@@ -75,7 +60,37 @@ function WalletBalance({ connected, accountAddress, rdt }) {
       console.error('Error fetching balances:', error);
       setError('Failed to fetch balances. Please try again.');
     }
-  }
+  }, [rdt]);
+
+  useEffect(() => {
+    let intervalId;
+
+    if (connected && accountAddress && rdt && rdt.gatewayApi) {
+      // Fetch balances immediately
+      fetchBalances(accountAddress);
+
+      // Set up interval to fetch balances every 30 seconds
+      intervalId = setInterval(() => {
+        fetchBalances(accountAddress);
+      }, 30000); // 30 seconds
+    }
+
+    // Clean up function to clear the interval when the component unmounts or dependencies change
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [connected, accountAddress, rdt, fetchBalances]);
+
+  const formatAddress = (address) => {
+    if (address.length <= 14) return address;
+    return `${address.slice(0, 8)}...${address.slice(-6)}`;
+  };
+
+  const formatXRDBalance = (balance) => {
+    return Math.floor(balance).toLocaleString();
+  };
 
   if (!connected) {
     return <p>Please connect your wallet to view balance.</p>;
@@ -88,11 +103,17 @@ function WalletBalance({ connected, accountAddress, rdt }) {
   return (
     <div className="wallet-balance">
       <h2>Wallet Balance</h2>
-      <p>Connected Account: {accountAddress}</p>
+      <div className="account-info">
+        <div className="account-label">{accountLabel}</div>
+        <div className="account-address">
+          <span className="address-label">Connected:</span>
+          <span className="address-value">{formatAddress(accountAddress)}</span>
+        </div>
+      </div>
       <div className="balance-container">
         <div className="balance-item">
           <div className="balance-circle">
-            <span className="balance-amount">{xrdBalance.toFixed(2)}</span>
+            <span className="balance-amount">{formatXRDBalance(xrdBalance)}</span>
           </div>
           <span className="balance-label">XRD</span>
         </div>

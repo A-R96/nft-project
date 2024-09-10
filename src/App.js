@@ -72,7 +72,7 @@ function App() {
             <RaritiesTable />
           </div>
           <SaleSection connected={connected} accountAddress={accountAddress} />
-          <WalletBalance connected={connected} accountAddress={accountAddress} rdt={rdt} />
+          <WalletBalance connected={connected} walletData={walletData} rdt={rdt} />
           <ImageBanner />
         </div>
       </main>
