@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { DataRequestBuilder } from "@radixdlt/radix-dapp-toolkit";
 import { initBackToTop } from './BackToTop';
 import Header from './components/Header';
@@ -13,33 +13,55 @@ import { rdt } from './radixConfig';
 import './App.css';
 
 function App() {
-  const [connected, setConnected] = useState(false);
-  const [accountAddress, setAccountAddress] = useState('');
+  const [walletData, setWalletData] = useState(null);
+
+  const updateWalletData = useCallback(async () => {
+    try {
+      const data = await rdt.walletApi.getWalletData();
+      console.log('App: Wallet data fetched:', data);
+      setWalletData(data);
+    } catch (error) {
+      console.error('Error fetching wallet data:', error);
+    }
+  }, []);
 
   useEffect(() => {
     rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
 
     const subscription = rdt.walletApi.walletData$.subscribe({
-      next: (walletData) => {
-        setConnected(walletData.connected);
-        if (walletData.connected && walletData.accounts.length > 0) {
-          setAccountAddress(walletData.accounts[0].address);
-        } else {
-          setAccountAddress('');
-        }
+      next: (data) => {
+        console.log('App: Wallet data updated:', data);
+        setWalletData(data);
       },
       error: (error) => console.error("Wallet data subscription error:", error),
     });
 
+    console.log('App: Initial wallet data check...');
+    updateWalletData();
+
     initBackToTop();
 
     return () => subscription.unsubscribe();
+  }, [updateWalletData]);
+
+  const handleConnectClick = useCallback(async () => {
+    try {
+      console.log('App: Connecting wallet...');
+      await rdt.walletApi.connect();
+    } catch (error) {
+      console.error("Error connecting to wallet:", error);
+    }
   }, []);
+
+  console.log('App: Rendering with walletData =', walletData);
+
+  const connected = walletData && walletData.accounts && walletData.accounts.length > 0;
+  const accountAddress = connected ? walletData.accounts[0].address : '';
 
   return (
     <div className="App">
       <Background />
-      <Header />
+      <Header onConnectClick={handleConnectClick} />
       <main>
         <div className="content-wrapper">
           <ProjectDescription />
@@ -48,7 +70,7 @@ function App() {
             <RaritiesTable />
           </div>
           <SaleSection connected={connected} accountAddress={accountAddress} />
-          <WalletBalance connected={connected} accountAddress={accountAddress} />
+          <WalletBalance connected={connected} accountAddress={accountAddress} rdt={rdt} />
           <ImageBanner />
         </div>
       </main>

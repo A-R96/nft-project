@@ -1,48 +1,77 @@
 import React, { useEffect, useState } from 'react';
-import { rdt } from '../radixConfig';
+import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit';
 
-function WalletBalance({ connected, accountAddress }) {
+function WalletBalance({ connected, accountAddress, rdt }) {
   const [xrdBalance, setXrdBalance] = useState(0);
   const [nftBalance, setNftBalance] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("WalletBalance effect triggered");
-    if (connected && accountAddress) {
-      const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
-      const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx'; // CAPYCLUB resource address
+    console.log('WalletBalance: connected =', connected, 'accountAddress =', accountAddress);
+    console.log('WalletBalance: rdt =', rdt);
 
-      console.log("Fetching balances for account:", accountAddress);
-      rdt.api.gatewayApi.state.getEntityDetailsVaultAggregated({
-        stateEntityId: accountAddress,
-        aggregationLevel: 'Vault',
-      }).then(response => {
-        console.log("API response:", response);
-        const fungibleResources = response.fungible_resources?.items || [];
-        const nonFungibleResources = response.non_fungible_resources?.items || [];
+    async function fetchBalances() {
+      if (connected && accountAddress && rdt && rdt.api && rdt.api.gatewayApi) {
+        console.log('Fetching balances for account:', accountAddress);
 
-        const xrdResource = fungibleResources.find(r => r.resource_address === xrdAddress);
-        const nftResource = nonFungibleResources.find(r => r.resource_address === nftAddress);
+        const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
+        const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx'; // CAPYCLUB resource address
 
-        const newXrdBalance = xrdResource ? parseInt(xrdResource.vaults[0].amount) / 1e18 : 0;
-        const newNftBalance = nftResource ? nftResource.vaults[0].items.length : 0;
+        try {
+          const response = await rdt.api.gatewayApi.state.getEntityDetailsVaultAggregated({
+            stateEntityId: accountAddress,
+            aggregationLevel: 'Vault',
+          });
 
-        console.log("New balances - XRD:", newXrdBalance, "NFT:", newNftBalance);
+          console.log('API Response:', response);
 
-        setXrdBalance(newXrdBalance);
-        setNftBalance(newNftBalance);
-      }).catch(error => {
-        console.error('Error fetching balances:', error);
-      });
-    } else {
-      console.log("Wallet not connected or no account address");
-      setXrdBalance(0);
-      setNftBalance(0);
+          const fungibleResources = response.fungible_resources?.items || [];
+          const nonFungibleResources = response.non_fungible_resources?.items || [];
+
+          console.log('Fungible Resources:', fungibleResources);
+          console.log('Non-Fungible Resources:', nonFungibleResources);
+
+          const xrdResource = fungibleResources.find(r => r.resource_address === xrdAddress);
+          const nftResource = nonFungibleResources.find(r => r.resource_address === nftAddress);
+
+          console.log('XRD Resource:', xrdResource);
+          console.log('NFT Resource:', nftResource);
+
+          const newXrdBalance = xrdResource ? parseInt(xrdResource.vaults[0].amount) / 1e18 : 0;
+          const newNftBalance = nftResource ? nftResource.vaults[0].items.length : 0;
+
+          console.log('New XRD Balance:', newXrdBalance);
+          console.log('New NFT Balance:', newNftBalance);
+
+          setXrdBalance(newXrdBalance);
+          setNftBalance(newNftBalance);
+          setError(null);
+        } catch (error) {
+          console.error('Error fetching balances:', error);
+          setError('Failed to fetch balances. Please try again.');
+        }
+      } else {
+        setXrdBalance(0);
+        setNftBalance(0);
+        setError(null);
+      }
     }
-  }, [connected, accountAddress]);
+
+    fetchBalances();
+  }, [connected, accountAddress, rdt]);
+
+  if (!connected) {
+    return <p>Please connect your wallet to view balance.</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="wallet-balance">
       <h2>Wallet Balance</h2>
+      <p>Connected Account: {accountAddress}</p>
       <div className="balance-container">
         <div className="balance-item">
           <div className="balance-circle">
