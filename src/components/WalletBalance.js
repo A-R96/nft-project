@@ -11,6 +11,13 @@ function WalletBalance({ connected, accountAddress, rdt }) {
     console.log('WalletBalance: rdt =', rdt);
 
     async function fetchBalances() {
+      console.log('Checking conditions for fetching balances:');
+      console.log('- connected:', connected);
+      console.log('- accountAddress:', accountAddress);
+      console.log('- rdt:', !!rdt);
+      console.log('- rdt.api:', rdt && !!rdt.api);
+      console.log('- rdt.api.gatewayApi:', rdt && rdt.api && !!rdt.api.gatewayApi);
+
       if (connected && accountAddress && rdt && rdt.api && rdt.api.gatewayApi) {
         console.log('Fetching balances for account:', accountAddress);
 
@@ -18,6 +25,7 @@ function WalletBalance({ connected, accountAddress, rdt }) {
         const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx'; // CAPYCLUB resource address
 
         try {
+          console.log('Making API call to getEntityDetailsVaultAggregated');
           const response = await rdt.api.gatewayApi.state.getEntityDetailsVaultAggregated({
             stateEntityId: accountAddress,
             aggregationLevel: 'Vault',
@@ -51,6 +59,7 @@ function WalletBalance({ connected, accountAddress, rdt }) {
           setError('Failed to fetch balances. Please try again.');
         }
       } else {
+        console.log('Conditions not met for fetching balances');
         setXrdBalance(0);
         setNftBalance(0);
         setError(null);

@@ -58,6 +58,8 @@ function App() {
   const connected = walletData && walletData.accounts && walletData.accounts.length > 0;
   const accountAddress = connected ? walletData.accounts[0].address : '';
 
+  console.log('App: connected =', connected, 'accountAddress =', accountAddress);
+
   return (
     <div className="App">
       <Background />

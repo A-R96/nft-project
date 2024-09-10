@@ -15,6 +15,7 @@ function SaleSection({ connected, accountAddress }) {
       return;
     }
 
+    // Replace with your actual component address and method name
     const componentAddress = 'component_tdx_2_1cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
     const methodName = 'buy_nft';
 
