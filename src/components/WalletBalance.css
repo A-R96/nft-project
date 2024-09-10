@@ -1,1 +1,85 @@
+.wallet-balance {
+  background-color: rgba(30, 30, 30, 0.301);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.651);
+}
 
+.wallet-balance h2 {
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.account-info {
+  background-color: rgba(35, 35, 35, 0.8);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.account-label {
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.account-address {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.address-label {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.address-value {
+  font-family: monospace;
+  background-color: rgba(45, 45, 45, 0.8);
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid #333;
+  color: #ffffff;
+}
+
+.balance-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.balance-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balance-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: rgba(45, 45, 45, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.balance-amount {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4CAF50;
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+}
+
+.balance-label {
+  font-size: 14px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
