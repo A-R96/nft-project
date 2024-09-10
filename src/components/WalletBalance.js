@@ -9,65 +9,73 @@ function WalletBalance({ connected, accountAddress, rdt }) {
   useEffect(() => {
     console.log('WalletBalance: connected =', connected, 'accountAddress =', accountAddress);
     console.log('WalletBalance: rdt =', rdt);
+    console.log('WalletBalance: rdt.gatewayApi =', rdt?.gatewayApi);
 
-    async function fetchBalances() {
-      console.log('Checking conditions for fetching balances:');
+    if (connected && accountAddress && rdt && rdt.gatewayApi) {
+      fetchBalances(accountAddress);
+    } else {
+      console.log('Conditions not met for fetching balances:');
       console.log('- connected:', connected);
       console.log('- accountAddress:', accountAddress);
       console.log('- rdt:', !!rdt);
-      console.log('- rdt.api:', rdt && !!rdt.api);
-      console.log('- rdt.api.gatewayApi:', rdt && rdt.api && !!rdt.api.gatewayApi);
-
-      if (connected && accountAddress && rdt && rdt.api && rdt.api.gatewayApi) {
-        console.log('Fetching balances for account:', accountAddress);
-
-        const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
-        const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx'; // CAPYCLUB resource address
-
-        try {
-          console.log('Making API call to getEntityDetailsVaultAggregated');
-          const response = await rdt.api.gatewayApi.state.getEntityDetailsVaultAggregated({
-            stateEntityId: accountAddress,
-            aggregationLevel: 'Vault',
-          });
-
-          console.log('API Response:', response);
-
-          const fungibleResources = response.fungible_resources?.items || [];
-          const nonFungibleResources = response.non_fungible_resources?.items || [];
-
-          console.log('Fungible Resources:', fungibleResources);
-          console.log('Non-Fungible Resources:', nonFungibleResources);
-
-          const xrdResource = fungibleResources.find(r => r.resource_address === xrdAddress);
-          const nftResource = nonFungibleResources.find(r => r.resource_address === nftAddress);
-
-          console.log('XRD Resource:', xrdResource);
-          console.log('NFT Resource:', nftResource);
-
-          const newXrdBalance = xrdResource ? parseInt(xrdResource.vaults[0].amount) / 1e18 : 0;
-          const newNftBalance = nftResource ? nftResource.vaults[0].items.length : 0;
-
-          console.log('New XRD Balance:', newXrdBalance);
-          console.log('New NFT Balance:', newNftBalance);
-
-          setXrdBalance(newXrdBalance);
-          setNftBalance(newNftBalance);
-          setError(null);
-        } catch (error) {
-          console.error('Error fetching balances:', error);
-          setError('Failed to fetch balances. Please try again.');
-        }
-      } else {
-        console.log('Conditions not met for fetching balances');
-        setXrdBalance(0);
-        setNftBalance(0);
-        setError(null);
-      }
+      console.log('- rdt.gatewayApi:', rdt && !!rdt.gatewayApi);
     }
-
-    fetchBalances();
   }, [connected, accountAddress, rdt]);
+
+  async function fetchBalances(address) {
+    const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
+    const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx';
+
+    try {
+      console.log('Fetching balances for account:', address);
+
+      const baseUrl = rdt.gatewayApi.clientConfig.basePath;
+      const url = `${baseUrl}/state/entity/details`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          addresses: [address],
+          aggregation_level: 'Vault',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('API Response:', data);
+
+      if (data.items && data.items.length > 0) {
+        const accountDetails = data.items[0];
+        const fungibleResources = accountDetails.fungible_resources?.items || [];
+        const nonFungibleResources = accountDetails.non_fungible_resources?.items || [];
+
+        const xrdResource = fungibleResources.find(r => r.resource_address === xrdAddress);
+        const nftResource = nonFungibleResources.find(r => r.resource_address === nftAddress);
+
+        console.log('XRD Resource:', xrdResource);
+        console.log('NFT Resource:', nftResource);
+
+        const newXrdBalance = xrdResource ? parseInt(xrdResource.vaults.items[0].amount) / 1e18 : 0;
+        const newNftBalance = nftResource ? nftResource.vaults.items[0].total_count : 0;
+
+        setXrdBalance(newXrdBalance);
+        setNftBalance(newNftBalance);
+        setError(null);
+      } else {
+        console.error('No account data found in the response');
+        setError('Failed to fetch account data. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error fetching balances:', error);
+      setError('Failed to fetch balances. Please try again.');
+    }
+  }
 
   if (!connected) {
     return <p>Please connect your wallet to view balance.</p>;

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@radixdlt/babylon-gateway-api-sdk": "^1.6.1",
     "@radixdlt/radix-dapp-toolkit": "^2.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
