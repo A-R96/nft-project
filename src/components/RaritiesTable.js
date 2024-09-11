@@ -27,6 +27,11 @@ function RaritiesTable() {
           ))}
         </tbody>
       </table>
+
+      <div className="rarities-message">
+        <h3>Rarity Information Update</h3>
+        <p>Please note: The rarity information shown above is preliminary. The metadata has not yet been updated with final rarity data. Stay tuned for updates!</p>
+      </div>
     </section>
   );
 }

@@ -61,7 +61,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* Remove the Background component from here */}
       <Header onConnectClick={handleConnectClick} />
       <main>
         <div className="content-wrapper">

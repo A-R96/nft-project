@@ -467,3 +467,31 @@ radix-connect-button::part(button) {
   display: flex;
   justify-content: center;
 }
+
+/* Add these styles at the end of your App.css file */
+
+.radix-connect-button-container {
+  position: relative;
+}
+
+.radix-connect-button-container [data-radix-popper-content-wrapper] {
+  position: fixed !important;
+  top: 80px !important; /* Adjust based on your header height */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin-left: 0 !important;
+  margin-top: 0 !important;
+  width: 300px !important; /* Adjust this value as needed */
+  max-width: 90vw !important; /* Ensure it doesn't overflow on small screens */
+  max-height: calc(100vh - 100px) !important; /* Adjust 100px based on your needs */
+  overflow-y: auto !important;
+}
+
+.radix-connect-button-container .radix-connect-button__modal {
+  transform: none !important;
+}
+
+/* Hide the arrow if it's causing layout issues */
+.radix-connect-button-container [data-radix-popper-arrow-wrapper] {
+  display: none !important;
+}
