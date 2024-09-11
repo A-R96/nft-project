@@ -30,10 +30,10 @@ body {
 }
 
 header {
-  background-color: rgba(30, 30, 30, 0.603);
+  background-color: rgba(218, 172, 143, 0.6); /* #daac8f with 80% opacity */
   padding: 30px 20px;
   margin-bottom: 30px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(10px);
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
@@ -64,10 +64,10 @@ nav a {
 }
 
 main {
-  background-color: rgba(30, 30, 30, 0.603);
+  background-color: rgba(218, 172, 143, 0.6); /* #daac8f with 80% opacity */
   padding: 20px;
   border-radius: 8px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
 
@@ -97,7 +97,7 @@ main * {
 }
 
 table {
-  background-color: rgba(35, 35, 35, 0.8); /* Increased opacity and darkness */
+  background-color: rgba(35, 35, 35, 0.7); /* Increased opacity and darkness */
   width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
@@ -138,7 +138,7 @@ input[type="number"] {
 }
 
 #sale {
-  background-color: rgba(35, 35, 35, 0.8); /* Increased opacity and darkness */
+  background-color: rgba(35, 35, 35, 0.75); /* Increased opacity and darkness */
   padding: 20px;
   border-radius: 8px;
   text-align: center; /* Center the content */
@@ -215,7 +215,7 @@ header h1, nav a, main {
 }
 
 .wallet-balance {
-  background-color: rgba(35, 35, 35, 0.8); /* Increased opacity and darkness */
+  background-color: rgba(35, 35, 35, 0.75); /* Increased opacity and darkness */
   padding: 20px;
   border-radius: 8px;
   text-align: center;
