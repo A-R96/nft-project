@@ -451,3 +451,19 @@ radix-connect-button::part(button) {
   font-smooth: never;
   -webkit-font-smoothing: none;
 }
+
+/* Center the Radix connect button dropdown */
+.radix-connect-button {
+  position: relative;
+}
+
+.radix-connect-button__modal {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+/* Ensure the button container is centered */
+.connect-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
