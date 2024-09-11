@@ -113,9 +113,9 @@ function WalletBalance({ connected, walletData, rdt }) {
     <div className="wallet-balance">
       <h2>Wallet Balance</h2>
       <div className="account-info">
-        <div className="account-label">{walletData?.accounts?.[0]?.label || ''}</div>
-        <div className="account-address">
-          <span className="address-label">Connected:</span>
+        <div className="connection-status">Connected</div>
+        <div className="account-details">
+          <span className="account-label">{walletData?.accounts?.[0]?.label || ''}</span>
           <span
             className="address-value-container"
             onClick={() => copyToClipboard(fullAddress)}

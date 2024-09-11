@@ -21,19 +21,22 @@
   margin-bottom: 15px;
 }
 
-.account-label {
+.connection-status {
   font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 5px;
+  color: #4CAF50;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Optional: adds a subtle separator line */
+
 }
 
-.account-address {
+.account-details {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-.address-label {
+.account-label {
   font-weight: bold;
   color: #ffffff;
 }
@@ -57,6 +60,11 @@
 .address-value {
   font-family: monospace;
   color: #ffffff;
+}
+
+.copy-message {
+  color: #4CAF50;
+  font-weight: 400;
 }
 
 .balance-container {
@@ -103,9 +111,4 @@
 
 .address-value.clickable:hover {
   background-color: rgba(255, 255, 255, 0.1);
-}
-
-.copy-message {
-  color: #4CAF50;
-  font-weight: 400; /* Changed from bold to 400 */
 }
