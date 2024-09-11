@@ -7,7 +7,6 @@ import TraitsTable from './components/TraitsTable';
 import RaritiesTable from './components/RaritiesTable';
 import SaleSection from './components/SaleSection';
 import WalletBalance from './components/WalletBalance';
-import Background from './components/Background';
 import ImageBanner from './components/ImageBanner';
 import { rdt } from './radixConfig';
 import './App.css';
@@ -62,7 +61,7 @@ function App() {
 
   return (
     <div className="App">
-      <Background />
+      {/* Remove the Background component from here */}
       <Header onConnectClick={handleConnectClick} />
       <main>
         <div className="content-wrapper">
