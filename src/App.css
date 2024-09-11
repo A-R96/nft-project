@@ -30,13 +30,13 @@ body {
 }
 
 header {
-  background-color: rgba(30, 30, 30, 0.7);
+  background-color: rgba(30, 30, 30, 0.603);
   padding: 30px 20px;
   margin-bottom: 30px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
   border-radius: 8px;
 }
 
@@ -64,12 +64,12 @@ nav a {
 }
 
 main {
-  background-color: rgba(30, 30, 30, 0.7);
+  background-color: rgba(30, 30, 30, 0.603);
   padding: 20px;
   border-radius: 8px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
 
   padding-bottom: 20px; /* Adjust this value based on your banner height plus some extra space */
   flex: 1;
@@ -356,26 +356,33 @@ main {
 
 #back-to-top {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: none;
+  bottom: 30px; /* Increased from 20px to give more space from the bottom */
+  right: 30px; /* Increased from 20px to give more space from the right */
+  background: rgba(76, 175, 80, 0.8); /* Semi-transparent green background */
   color: #fff;
   border: none;
-  font-size: 24px;
+  border-radius: 50%; /* Keep it circular */
+  font-size: 32px; /* Increased from 24px */
+  width: 60px; /* Increased from default */
+  height: 60px; /* Increased from default */
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
+  transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
 }
 
 #back-to-top.visible {
-  opacity: 1;
+  opacity: .9;
   visibility: visible;
 }
 
 #back-to-top:hover {
-  color: #ccc;
+  background-color: rgba(76, 175, 80, 1); /* Solid green on hover */
 }
 
 /* Keep any other existing styles below */

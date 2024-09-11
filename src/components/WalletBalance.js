@@ -5,6 +5,7 @@ function WalletBalance({ connected, walletData, rdt }) {
   const [xrdBalance, setXrdBalance] = useState(0);
   const [nftBalance, setNftBalance] = useState(0);
   const [error, setError] = useState(null);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const accountAddress = walletData?.accounts?.[0]?.address || '';
   const accountLabel = walletData?.accounts?.[0]?.label || '';
@@ -88,8 +89,14 @@ function WalletBalance({ connected, walletData, rdt }) {
     return `${address.slice(0, 8)}...${address.slice(-6)}`;
   };
 
-  const formatXRDBalance = (balance) => {
-    return Math.floor(balance).toLocaleString();
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000); // Clear the message after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
   };
 
   if (!connected) {
@@ -100,14 +107,26 @@ function WalletBalance({ connected, walletData, rdt }) {
     return <p>{error}</p>;
   }
 
+  const fullAddress = walletData?.accounts?.[0]?.address || '';
+
   return (
     <div className="wallet-balance">
       <h2>Wallet Balance</h2>
       <div className="account-info">
-        <div className="account-label">{accountLabel}</div>
+        <div className="account-label">{walletData?.accounts?.[0]?.label || ''}</div>
         <div className="account-address">
           <span className="address-label">Connected:</span>
-          <span className="address-value">{formatAddress(accountAddress)}</span>
+          <span
+            className="address-value-container"
+            onClick={() => copyToClipboard(fullAddress)}
+            title="Click to copy full address"
+          >
+            {copySuccess ? (
+              <span className="copy-message">Copied!</span>
+            ) : (
+              <span className="address-value">{formatAddress(fullAddress)}</span>
+            )}
+          </span>
         </div>
       </div>
       <div className="balance-container">
@@ -127,5 +146,9 @@ function WalletBalance({ connected, walletData, rdt }) {
     </div>
   );
 }
+
+const formatXRDBalance = (balance) => {
+  return Math.floor(balance).toLocaleString();
+};
 
 export default WalletBalance;
