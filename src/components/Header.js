@@ -4,7 +4,7 @@ function Header({ onConnectClick }) {
   return (
     <header>
       <div className="header-content">
-        <h1>CAPYCLUB NFT</h1>
+        <img src="/images/alphabanner.png" alt="CAPYCLUB NFT" className="header-logo" />
         <nav>
           <ul>
             <li><a href="#description">Description</a></li>

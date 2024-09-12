@@ -10,6 +10,7 @@ import WalletBalance from './components/WalletBalance';
 import ImageBanner from './components/ImageBanner';
 import { rdt } from './radixConfig';
 import './App.css';
+import { initSmoothScroll } from './SmoothScroll';
 
 function App() {
   const [walletData, setWalletData] = useState(null);
@@ -39,6 +40,8 @@ function App() {
     updateWalletData();
 
     initBackToTop();
+
+    initSmoothScroll();
 
     return () => subscription.unsubscribe();
   }, [updateWalletData]);
