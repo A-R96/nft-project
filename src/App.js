@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { DataRequestBuilder } from "@radixdlt/radix-dapp-toolkit";
-import { initBackToTop } from './BackToTop';
 import Header from './components/Header';
 import ProjectDescription from './components/ProjectDescription';
 import TraitsTable from './components/TraitsTable';
@@ -10,11 +9,10 @@ import WalletBalance from './components/WalletBalance';
 import ImageBanner from './components/ImageBanner';
 import { rdt } from './radixConfig';
 import './App.css';
-import { initSmoothScroll } from './SmoothScroll';
-
 
 function App() {
   const [walletData, setWalletData] = useState(null);
+  const [rdtInitialized, setRdtInitialized] = useState(false);
 
   const updateWalletData = useCallback(async () => {
     try {
@@ -27,6 +25,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const initializeRdt = async () => {
+      // Wait for rdt to be fully initialized
+      while (!rdt.gatewayApi) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      setRdtInitialized(true);
+    };
+
+    initializeRdt();
+
     rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
 
     const subscription = rdt.walletApi.walletData$.subscribe({
@@ -40,10 +48,6 @@ function App() {
     console.log('App: Initial wallet data check...');
     updateWalletData();
 
-    initBackToTop();
-
-    initSmoothScroll();
-
     return () => subscription.unsubscribe();
   }, [updateWalletData]);
 
@@ -56,11 +60,10 @@ function App() {
     }
   }, []);
 
-  console.log('App: Rendering with walletData =', walletData);
-
   const connected = walletData && walletData.accounts && walletData.accounts.length > 0;
   const accountAddress = connected ? walletData.accounts[0].address : '';
 
+  console.log('App: Rendering with walletData =', walletData);
   console.log('App: connected =', connected, 'accountAddress =', accountAddress);
 
   return (
@@ -73,12 +76,17 @@ function App() {
             <TraitsTable />
             <RaritiesTable />
           </div>
-          <SaleSection connected={connected} accountAddress={accountAddress} />
+          {rdtInitialized && (
+            <SaleSection
+              connected={connected}
+              accountAddress={accountAddress}
+              rdt={rdt}
+            />
+          )}
           <WalletBalance connected={connected} walletData={walletData} rdt={rdt} />
           <ImageBanner />
         </div>
       </main>
-      <button id="back-to-top" aria-label="Back to top">↑</button>
     </div>
   );
 }
