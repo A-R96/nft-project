@@ -99,50 +99,62 @@ function WalletBalance({ connected, walletData, rdt }) {
     }
   };
 
-  if (!connected) {
-    return <p>Please connect your wallet to view balance.</p>;
-  }
+  const renderContent = () => {
+    if (!connected) {
+      return (
+        <div className="not-connected-message">
+          <p>Please connect your wallet to view balance.</p>
+        </div>
+      );
+    }
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+    if (error) {
+      return <p>{error}</p>;
+    }
 
-  const fullAddress = walletData?.accounts?.[0]?.address || '';
+    const fullAddress = walletData?.accounts?.[0]?.address || '';
+
+    return (
+      <>
+        <div className="account-info">
+          <div className="connection-status">Connected</div>
+          <div className="account-details">
+            <span className="account-label">{walletData?.accounts?.[0]?.label || ''}</span>
+            <span
+              className="address-value-container"
+              onClick={() => copyToClipboard(fullAddress)}
+              title="Click to copy full address"
+            >
+              {copySuccess ? (
+                <span className="copy-message">Copied!</span>
+              ) : (
+                <span className="address-value">{formatAddress(fullAddress)}</span>
+              )}
+            </span>
+          </div>
+        </div>
+        <div className="balance-container">
+          <div className="balance-item">
+            <div className="balance-circle">
+              <span className="balance-amount">{formatXRDBalance(xrdBalance)}</span>
+            </div>
+            <span className="balance-label">XRD</span>
+          </div>
+          <div className="balance-item">
+            <div className="balance-circle">
+              <span className="balance-amount">{nftBalance}</span>
+            </div>
+            <span className="balance-label">CAPYCLUB</span>
+          </div>
+        </div>
+      </>
+    );
+  };
 
   return (
     <div className="wallet-balance">
       <h2>Wallet Balance</h2>
-      <div className="account-info">
-        <div className="connection-status">Connected</div>
-        <div className="account-details">
-          <span className="account-label">{walletData?.accounts?.[0]?.label || ''}</span>
-          <span
-            className="address-value-container"
-            onClick={() => copyToClipboard(fullAddress)}
-            title="Click to copy full address"
-          >
-            {copySuccess ? (
-              <span className="copy-message">Copied!</span>
-            ) : (
-              <span className="address-value">{formatAddress(fullAddress)}</span>
-            )}
-          </span>
-        </div>
-      </div>
-      <div className="balance-container">
-        <div className="balance-item">
-          <div className="balance-circle">
-            <span className="balance-amount">{formatXRDBalance(xrdBalance)}</span>
-          </div>
-          <span className="balance-label">XRD</span>
-        </div>
-        <div className="balance-item">
-          <div className="balance-circle">
-            <span className="balance-amount">{nftBalance}</span>
-          </div>
-          <span className="balance-label">CAPYCLUB</span>
-        </div>
-      </div>
+      {renderContent()}
     </div>
   );
 }
