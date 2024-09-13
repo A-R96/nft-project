@@ -12,6 +12,7 @@ import { rdt } from './radixConfig';
 import './App.css';
 import { initSmoothScroll } from './SmoothScroll';
 
+
 function App() {
   const [walletData, setWalletData] = useState(null);
 

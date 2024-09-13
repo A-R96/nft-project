@@ -1,0 +1,24 @@
+CALL_METHOD
+  Address("account_tdx_2_128x77d4ss7gpcamejdas34y75fs5ak2e5wjtjfa4gnwwzqugy0flg7")
+  "withdraw"
+  Address("resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc")
+  Decimal("150")
+;
+
+TAKE_ALL_FROM_WORKTOP
+  Address("resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc")
+  Bucket("payment_bucket")
+;
+
+CALL_METHOD
+  Address("component_tdx_2_1cqkgz0jgnrjq2akmpu6e37v7j890yrl05ggxas7f4zxudfw6fwnddw")
+  "buy"
+  Bucket("payment_bucket")
+  1u16
+;
+
+CALL_METHOD
+  Address("account_tdx_2_128x77d4ss7gpcamejdas34y75fs5ak2e5wjtjfa4gnwwzqugy0flg7")
+  "deposit_batch"
+  Expression("ENTIRE_WORKTOP")
+;
