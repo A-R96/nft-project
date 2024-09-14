@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { transactionService } from '../transactionService';
 import { rdt } from '../radixConfig';
+import { fetchPrice as mockFetchPrice } from '../mockApi';
 
-function SaleSection({ connected, accountAddress }) {
+function SaleSection({ connected, accountAddress, walletData }) {
   const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,58 +14,25 @@ function SaleSection({ connected, accountAddress }) {
   const MAX_AMOUNT = 10;
 
   useEffect(() => {
+    console.log('SaleSection mounted');
     const fetchPrice = async () => {
-      if (!rdt.gatewayApi || !rdt.gatewayApi.clientConfig) {
-        console.error('Gateway API not available');
-        setError('Gateway API not available');
-        setLoading(false);
-        return;
-      }
-
+      console.log('Attempting to fetch price...');
+      setLoading(true);
       try {
-        console.log('Attempting to fetch price...');
-        const response = await fetch(`${rdt.gatewayApi.clientConfig.basePath}/state/entity/details`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            addresses: [componentAddress],
-            aggregation_level: 'vault',
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const data = await mockFetchPrice();
         console.log('API Response:', data);
-
-        if (data.items && data.items.length > 0) {
-          const componentData = data.items[0];
-          if (componentData.details && componentData.details.state && componentData.details.state.fields) {
-            const priceField = componentData.details.state.fields.find(f => f.field_name === 'price');
-            if (priceField && priceField.value) {
-              setPrice(priceField.value);
-              setLoading(false);
-              return;
-            }
-          }
-          console.error('Price not found in component data:', componentData);
-        } else {
-          console.error('No items found in API response');
-        }
-        setError('Price not found in component data');
-      } catch (err) {
-        console.error('Error fetching price:', err);
-        setError('Failed to fetch price');
+        setPrice(data.items[0].price);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching price:', error);
+        setError('Failed to fetch price: ' + error.message);
       } finally {
         setLoading(false);
       }
     };
 
     fetchPrice();
+    transactionService.loadRTMTemplate().catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -91,9 +60,54 @@ function SaleSection({ connected, accountAddress }) {
     }
   };
 
-  const handleBuy = () => {
+  const handleBuy = async () => {
+    console.log('Buy button clicked');
+    if (!connected || !accountAddress) {
+      console.error('Wallet not connected');
+      return;
+    }
+
     console.log(`Buying ${amount} NFT(s) at ${price} XRD each. Total: ${totalPrice} XRD`);
-    // Implement your buy logic here
+    console.log('Account address:', accountAddress);
+
+    try {
+      console.log('Calling transactionService.sendTransaction...');
+      const transactionResult = await transactionService.sendTransaction(accountAddress, amount, price);
+
+      console.log('Transaction result:', transactionResult);
+
+      // Log purchase info
+      const purchaseInfo = {
+        walletAddress: accountAddress,
+        numberOfNFTs: amount,
+        personaLabel: walletData?.persona?.label || '',
+        accountLabel: walletData?.accounts?.[0]?.label || '',
+        timestamp: new Date().toISOString()
+      };
+
+      console.log('Logging purchase info:', purchaseInfo);
+
+      const response = await fetch('/api/log-purchase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(purchaseInfo),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to log purchase. Status:', response.status);
+        throw new Error('Failed to log purchase');
+      }
+
+      console.log('Purchase logged successfully');
+      // Handle successful purchase (e.g., show success message, update UI)
+    } catch (error) {
+      console.error('Error processing purchase:', error);
+      console.error('Error details:', error.message);
+      // Handle the error (e.g., show an error message to the user)
+      alert(`Error processing purchase: ${error.message}`);
+    }
   };
 
   const handleSetMaxAmount = () => {
@@ -102,6 +116,8 @@ function SaleSection({ connected, accountAddress }) {
 
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;
+
+  console.log('Rendering SaleSection. Connected:', connected, 'Address:', accountAddress);
 
   return (
     <div id="sale">
