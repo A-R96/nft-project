@@ -10,7 +10,8 @@ class TransactionService {
   async loadRTMTemplate() {
     console.log('Loading RTM template...');
     try {
-      const response = await fetch('/src/RTMs/buyNFT.rtm');
+      // Corrected path to fetch the RTM template from the public directory
+      const response = await fetch('/RTMs/buyNFT.rtm');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
