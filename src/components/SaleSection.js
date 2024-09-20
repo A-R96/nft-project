@@ -76,37 +76,24 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
       console.log('Transaction result:', transactionResult);
 
-      // Log purchase info
-      const purchaseInfo = {
-        walletAddress: accountAddress,
-        numberOfNFTs: amount,
-        personaLabel: walletData?.persona?.label || '',
-        accountLabel: walletData?.accounts?.[0]?.label || '',
-        timestamp: new Date().toISOString()
-      };
+      // Commenting out the logging purchase info
+      // console.log('Logging purchase info:', transactionResult);
+      // const logResponse = await fetch('/api/log-purchase', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(transactionResult),
+      // });
 
-      console.log('Logging purchase info:', purchaseInfo);
+      // if (!logResponse.ok) {
+      //   throw new Error('Failed to log purchase');
+      // }
 
-      const response = await fetch('/api/log-purchase', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(purchaseInfo),
-      });
-
-      if (!response.ok) {
-        console.error('Failed to log purchase. Status:', response.status);
-        throw new Error('Failed to log purchase');
-      }
-
-      console.log('Purchase logged successfully');
-      // Handle successful purchase (e.g., show success message, update UI)
+      // console.log('Purchase logged successfully');
     } catch (error) {
       console.error('Error processing purchase:', error);
-      console.error('Error details:', error.message);
-      // Handle the error (e.g., show an error message to the user)
-      alert(`Error processing purchase: ${error.message}`);
+      setError('Error processing purchase: ' + error.message);
     }
   };
 
