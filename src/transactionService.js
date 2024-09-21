@@ -10,17 +10,12 @@ class TransactionService {
   async loadRTMTemplate() {
     console.log('Loading RTM template...');
     try {
-      // Corrected path to fetch the RTM template from the public directory
-      const response = await fetch('/RTMs/buyNFT.rtm');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const response = await fetch(`${process.env.PUBLIC_URL}/RTMs/buyNFT.rtm`);
       this.rtmTemplate = await response.text();
       console.log('RTM template loaded successfully');
       console.log('RTM template content:', this.rtmTemplate);
     } catch (error) {
-      console.error('Error loading RTM file:', error);
-      throw error;
+      console.error('Failed to load RTM template:', error);
     }
   }
 
