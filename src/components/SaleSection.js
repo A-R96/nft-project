@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { transactionService } from '../transactionService';
 import { rdt } from '../radixConfig';
-import { fetchPrice as mockFetchPrice } from '../mockApi';
 
 function SaleSection({ connected, accountAddress, walletData }) {
   const [price, setPrice] = useState(null);
@@ -14,36 +13,62 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const MAX_AMOUNT = 10;
 
   useEffect(() => {
-    console.log('SaleSection mounted');
-    const fetchPrice = async () => {
-      console.log('Attempting to fetch price...');
-      setLoading(true);
-      try {
-        const data = await mockFetchPrice();
-        console.log('API Response:', data);
-        console.log('Fetched price:', data.items[0].price);
-        setPrice(data.items[0].price);
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching price:', error);
-        setError('Failed to fetch price: ' + error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPrice();
-    transactionService.loadRTMTemplate().catch(console.error);
+    fetchComponentState();
   }, []);
 
   useEffect(() => {
-    console.log('Current price state:', price);
     if (price !== null && amount !== '') {
       setTotalPrice((parseFloat(price) * parseInt(amount)).toFixed(2));
     } else {
       setTotalPrice(null);
     }
   }, [price, amount]);
+
+  const fetchComponentState = async () => {
+    setLoading(true);
+    try {
+      console.log('Attempting to fetch component state...');
+      const response = await fetch('https://stokenet.radixdlt.com/state/entity/details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          addresses: [componentAddress],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('API Response:', data);
+
+      if (data.items && data.items.length > 0) {
+        const componentState = data.items[0].details.state;
+        console.log('Component State:', componentState);
+
+        const priceField = componentState.fields.find(field => field.field_name === 'price');
+        if (priceField && priceField.value) {
+          const fetchedPrice = priceField.value;
+          console.log('Fetched Price:', fetchedPrice);
+
+          setPrice(fetchedPrice);
+          setTotalPrice((parseFloat(fetchedPrice) * amount).toFixed(2));
+        } else {
+          throw new Error('Price not found in component state');
+        }
+      } else {
+        throw new Error('Component state not found');
+      }
+    } catch (err) {
+      console.error('Error fetching component state:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAmountChange = (e) => {
     const value = e.target.value;
@@ -111,9 +136,14 @@ function SaleSection({ connected, accountAddress, walletData }) {
   return (
     <div id="sale">
       <h2>BUY NFTs</h2>
-      {price && <p>Price: {price} XRD each</p>}
-      {connected ? (
+      {loading ? (
+        <p>Loading price...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
         <>
+          <p>Price per NFT: {price !== null ? `${price} XRD` : 'N/A'}</p>
+          <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
           <div className="amount-input">
             <label htmlFor="amount">Amount:</label>
             <input
@@ -132,12 +162,9 @@ function SaleSection({ connected, accountAddress, walletData }) {
               Max
             </button>
           </div>
-          {totalPrice && <p>Total Price: {totalPrice} XRD</p>}
           <button onClick={handleBuy} disabled={amount < 1 || amount > MAX_AMOUNT} className="buy-button">Buy NFT</button>
           <p>Maximum: {MAX_AMOUNT} NFTs per transaction</p>
         </>
-      ) : (
-        <p>Please connect your wallet to buy NFTs</p>
       )}
     </div>
   );
