@@ -9,7 +9,7 @@ function Header({ onConnectClick }) {
           alt="CAPYCLUB NFT"
           className="header-logo"
         />
-        <nav></nav>
+        <nav>
           <ul>
             <li><a href="#description">Description</a></li>
             <li><a href="#traits">Traits</a></li>
