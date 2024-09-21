@@ -21,6 +21,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
       try {
         const data = await mockFetchPrice();
         console.log('API Response:', data);
+        console.log('Fetched price:', data.items[0].price);
         setPrice(data.items[0].price);
         setError(null);
       } catch (error) {
@@ -36,6 +37,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
   }, []);
 
   useEffect(() => {
+    console.log('Current price state:', price);
     if (price !== null && amount !== '') {
       setTotalPrice((parseFloat(price) * parseInt(amount)).toFixed(2));
     } else {
