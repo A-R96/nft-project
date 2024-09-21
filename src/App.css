@@ -96,7 +96,7 @@ main * {
 }
 
 table {
-  background-color: rgba(35, 35, 35, 0.7); /* Increased opacity and darkness */
+  background-color: rgba(167, 133, 111, 1); /* Increased opacity and darkness */
   width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
@@ -111,7 +111,7 @@ th, td {
 }
 
 th {
-  background-color: rgba(45, 45, 45, 0.8); /* Increased opacity and darkness */
+  background-color: rgb(118, 95, 79); /* Increased opacity and darkness */
 }
 
 button {
@@ -137,7 +137,7 @@ input[type="number"] {
 }
 
 #sale {
-  background-color: rgba(35, 35, 35, 0.75); /* Increased opacity and darkness */
+  background-color: rgb(118, 95, 79); /* Increased opacity and darkness */
   padding: 20px;
   border-radius: 8px;
   text-align: center; /* Center the content */
@@ -214,7 +214,7 @@ header h1, nav a, main {
 }
 
 .wallet-balance {
-  background-color: rgba(35, 35, 35, 0.75); /* Increased opacity and darkness */
+  background-color: rgb(118, 95, 79); /* Increased opacity and darkness */
   padding: 20px;
   border-radius: 8px;
   text-align: center;
