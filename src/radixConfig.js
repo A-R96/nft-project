@@ -1,6 +1,6 @@
 import { RadixDappToolkit, DataRequestBuilder } from '@radixdlt/radix-dapp-toolkit'
 
-const dAppId = 'account_tdx_2_128zd40ju66fndr232gj7ehsdk82y4xkkpm6eecamm4mf3rdn7n5akm'
+const dAppId = 'account_tdx_2_128647u9lhk06k8lc73sfcjchp7ynz5y9xfpee9lnagyay432curpdd'
 
 export const rdt = RadixDappToolkit({
   dAppDefinitionAddress: dAppId,

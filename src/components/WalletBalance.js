@@ -8,11 +8,11 @@ function WalletBalance({ connected, walletData, rdt }) {
   const [copySuccess, setCopySuccess] = useState(false);
 
   const accountAddress = walletData?.accounts?.[0]?.address || '';
-  const accountLabel = walletData?.accounts?.[0]?.label || '';
+  //const accountLabel = walletData?.accounts?.[0]?.label || '';
 
   const fetchBalances = useCallback(async (address) => {
     const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
-    const nftAddress = 'resource_tdx_2_1nglpgy4kezde7ygh2vtnsyanz6y2jmcs9lwafqapu6kxrsxqy3xxkx';
+    const nftAddress = 'resource_tdx_2_1n27lvs77duf0yeqwl3jnwxphq6djrl6x5xh27wg6lt4atqwz46nves';
 
     try {
       console.log('Fetching balances for account:', address);

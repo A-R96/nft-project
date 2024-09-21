@@ -51,14 +51,26 @@ function App() {
     return () => subscription.unsubscribe();
   }, [updateWalletData]);
 
-  const handleConnectClick = useCallback(async () => {
+  const handleConnectClick = async () => {
+    console.log('App: Connecting wallet...');
     try {
-      console.log('App: Connecting wallet...');
-      await rdt.walletApi.connect();
+      if (rdt && rdt.walletApi) {
+        // Check if the connect method exists
+        if (typeof rdt.walletApi.connect === 'function') {
+          await rdt.walletApi.connect();
+        } else if (typeof rdt.walletApi.requestWalletConnection === 'function') {
+          // Try the alternative method if available
+          await rdt.walletApi.requestWalletConnection();
+        } else {
+          console.error('Wallet connection method not found');
+        }
+      } else {
+        console.error('Radix DApp Toolkit not properly initialized');
+      }
     } catch (error) {
-      console.error("Error connecting to wallet:", error);
+      console.error('Error connecting to wallet:', error);
     }
-  }, []);
+  };
 
   const connected = walletData && walletData.accounts && walletData.accounts.length > 0;
   const accountAddress = connected ? walletData.accounts[0].address : '';

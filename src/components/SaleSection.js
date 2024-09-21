@@ -9,7 +9,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [totalPrice, setTotalPrice] = useState(null);
   const [buySuccess, setBuySuccess] = useState(false);
 
-  const componentAddress = 'component_tdx_2_1cqkgz0jgnrjq2akmpu6e37v7j890yrl05ggxas7f4zxudfw6fwnddw';
+  const componentAddress = 'component_tdx_2_1czaht2c3zpwx2aappaeu6nj8puy5u3mt6z802txf29a2j62r99vs9s';
   const MAX_AMOUNT = 10;
 
   useEffect(() => {

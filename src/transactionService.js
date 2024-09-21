@@ -1,6 +1,6 @@
 import { rdt } from './radixConfig';
 
-const COMPONENT_ADDRESS = 'component_tdx_2_1cqkgz0jgnrjq2akmpu6e37v7j890yrl05ggxas7f4zxudfw6fwnddw';
+const COMPONENT_ADDRESS = 'component_tdx_2_1czaht2c3zpwx2aappaeu6nj8puy5u3mt6z802txf29a2j62r99vs9s';
 
 class TransactionService {
   constructor() {
