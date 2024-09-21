@@ -70,10 +70,10 @@ function WalletBalance({ connected, walletData, rdt }) {
       // Fetch balances immediately
       fetchBalances(accountAddress);
 
-      // Set up interval to fetch balances every 30 seconds
+      // Set up interval to fetch balances every 5 seconds
       intervalId = setInterval(() => {
         fetchBalances(accountAddress);
-      }, 30000); // 30 seconds
+      }, 5000); // 5 seconds
     }
 
     // Clean up function to clear the interval when the component unmounts or dependencies change

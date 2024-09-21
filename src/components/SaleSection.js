@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { transactionService } from '../transactionService';
-import { rdt } from '../radixConfig';
 
 function SaleSection({ connected, accountAddress, walletData }) {
   const [price, setPrice] = useState(null);
@@ -8,6 +7,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [error, setError] = useState(null);
   const [amount, setAmount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(null);
+  const [buySuccess, setBuySuccess] = useState(false);
 
   const componentAddress = 'component_tdx_2_1cqkgz0jgnrjq2akmpu6e37v7j890yrl05ggxas7f4zxudfw6fwnddw';
   const MAX_AMOUNT = 10;
@@ -103,21 +103,11 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
       console.log('Transaction result:', transactionResult);
 
-      // Commenting out the logging purchase info
-      // console.log('Logging purchase info:', transactionResult);
-      // const logResponse = await fetch('/api/log-purchase', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(transactionResult),
-      // });
+      if (transactionResult.status === 'CommittedSuccess') {
+        setBuySuccess(true);
+        setTimeout(() => setBuySuccess(false), 2000); // Clear the message after 2 seconds
+      }
 
-      // if (!logResponse.ok) {
-      //   throw new Error('Failed to log purchase');
-      // }
-
-      // console.log('Purchase logged successfully');
     } catch (error) {
       console.error('Error processing purchase:', error);
       setError('Error processing purchase: ' + error.message);
@@ -128,10 +118,20 @@ function SaleSection({ connected, accountAddress, walletData }) {
     setAmount(MAX_AMOUNT);
   };
 
+  const buttonStyle = {
+    padding: '10px 20px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    backgroundColor: buySuccess ? '#4CAF50' : '#6c87e7',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+  };
+
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;
 
-  console.log('Rendering SaleSection. Connected:', connected, 'Address:', accountAddress);
 
   return (
     <div id="sale">
@@ -162,7 +162,13 @@ function SaleSection({ connected, accountAddress, walletData }) {
               Max
             </button>
           </div>
-          <button onClick={handleBuy} disabled={amount < 1 || amount > MAX_AMOUNT} className="buy-button">Buy NFT</button>
+          <button
+            onClick={handleBuy}
+            disabled={amount < 1 || amount > MAX_AMOUNT}
+            style={buttonStyle}
+          >
+            {buySuccess ? 'Buy Successful!' : 'Buy NFT'}
+          </button>
           <p>Maximum: {MAX_AMOUNT} NFTs per transaction</p>
         </>
       )}
