@@ -9,7 +9,9 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [totalPrice, setTotalPrice] = useState(null);
   const [buySuccess, setBuySuccess] = useState(false);
   const [transactionStatus, setTransactionStatus] = useState(null);
+  const [remainingNFTs, setRemainingNFTs] = useState(0);
 
+  const TOTAL_NFTS = 243;
   const componentAddress = 'component_tdx_2_1czaht2c3zpwx2aappaeu6nj8puy5u3mt6z802txf29a2j62r99vs9s';
   const MAX_AMOUNT = 10;
 
@@ -59,6 +61,12 @@ function SaleSection({ connected, accountAddress, walletData }) {
           setTotalPrice((parseFloat(fetchedPrice) * amount).toFixed(2));
         } else {
           throw new Error('Price not found in component state');
+        }
+
+        // Get remaining NFTs
+        const nftResource = data.items[0].non_fungible_resources.items[0];
+        if (nftResource && nftResource.amount) {
+          setRemainingNFTs(parseInt(nftResource.amount));
         }
       } else {
         throw new Error('Component state not found');
@@ -141,6 +149,25 @@ function SaleSection({ connected, accountAddress, walletData }) {
     borderRadius: '5px',
   };
 
+  const soldPercentage = ((TOTAL_NFTS - remainingNFTs) / TOTAL_NFTS) * 100;
+
+  const progressBarStyle = {
+    width: '100%',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '5px',
+    margin: '10px 0'
+  };
+
+  const progressStyle = {
+    width: `${soldPercentage}%`,
+    backgroundColor: '#4CAF50',
+    height: '24px',
+    borderRadius: '5px',
+    textAlign: 'center',
+    lineHeight: '24px',
+    color: 'white'
+  };
+
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;
 
@@ -148,11 +175,17 @@ function SaleSection({ connected, accountAddress, walletData }) {
     <div id="sale">
       <h2>BUY NFTs</h2>
       {loading ? (
-        <p>Loading price...</p>
+        <p>Loading...</p>
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
         <>
+          <div style={progressBarStyle}>
+            <div style={progressStyle}>
+              {soldPercentage.toFixed(1)}% Sold
+            </div>
+          </div>
+          <p>Remaining NFTs: {remainingNFTs} out of {TOTAL_NFTS}</p>
           <p>Price per NFT: {price !== null ? `${price} XRD` : 'N/A'}</p>
           <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
           <div className="amount-input">
