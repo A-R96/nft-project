@@ -33,21 +33,19 @@ function NFTProgress({ remainingNFTs, totalNFTs }) {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    color: '#000000',
+    color: '#000',
     fontWeight: 'bold',
-    mixBlendMode: 'difference'
+    textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+    fontSize: '14px'
   };
 
   return (
-    <>
-      <div style={progressBarContainerStyle}>
-        <div style={progressBarFillStyle}></div>
-        <div style={progressTextStyle}>
-          {soldPercentage.toFixed(1)}% Sold
-        </div>
+    <div style={progressBarContainerStyle}>
+      <div style={progressBarFillStyle}></div>
+      <div style={progressTextStyle}>
+        {soldPercentage.toFixed(1)}%
       </div>
-      <p>Remaining NFTs: {remainingNFTs} out of {totalNFTs}</p>
-    </>
+    </div>
   );
 }
 

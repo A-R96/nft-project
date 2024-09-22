@@ -136,13 +136,13 @@ function WalletBalance({ connected, walletData, rdt }) {
         <div className="balance-container">
           <div className="balance-item">
             <div className="balance-circle">
-              <span className="balance-amount">{formatXRDBalance(xrdBalance)}</span>
+              <div className="balance-amount">{formatXRDBalance(xrdBalance)}</div>
             </div>
             <span className="balance-label">XRD</span>
           </div>
           <div className="balance-item">
             <div className="balance-circle">
-              <span className="balance-amount">{nftBalance}</span>
+              <div className="balance-amount">{nftBalance}</div>
             </div>
             <span className="balance-label">CAPYCLUB</span>
           </div>
@@ -160,7 +160,15 @@ function WalletBalance({ connected, walletData, rdt }) {
 }
 
 const formatXRDBalance = (balance) => {
-  return Math.floor(balance).toLocaleString();
+  const flooredBalance = Math.floor(balance);
+  if (flooredBalance >= 1000000) {
+    return Math.floor(flooredBalance / 1000000) + 'M';
+  } else if (flooredBalance >= 100000) {
+    return Math.floor(flooredBalance / 1000).toLocaleString() + 'K';
+  } else if (flooredBalance >= 1000) {
+    return (flooredBalance / 1000).toFixed(1) + 'K';
+  }
+  return flooredBalance.toLocaleString();
 };
 
 export default WalletBalance;

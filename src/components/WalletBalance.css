@@ -1,11 +1,14 @@
 .wallet-balance {
-  background-color: rgba(30, 30, 30, 0.301);
+  background-color: rgba(167, 133, 111, .9); /* This matches the table background color */
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.651);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
 }
 
 .wallet-balance h2 {
@@ -15,10 +18,17 @@
 }
 
 .account-info {
-  background-color: rgba(35, 35, 35, 0.8);
+  background-color: rgba(118, 95, 79, 1); /* Keep it dark */
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 15px;
+  width: 100%; /* Ensure it takes full width of its container */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* If the text is hard to read on this new background, you might want to adjust the text color */
+.account-info, .account-info * {
+  color: #ffffff; /* Ensure text is white for better contrast */
 }
 
 .connection-status {
@@ -34,6 +44,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .account-label {
@@ -42,24 +53,23 @@
 }
 
 .address-value-container {
-  cursor: pointer;
-  display: inline-block;
   background-color: rgba(45, 45, 45, 0.8);
   padding: 5px 10px;
   border-radius: 3px;
   border: 1px solid #333;
-  min-width: 120px; /* Adjust this value based on your needs */
-  text-align: center;
-  transition: background-color 0.3s ease;
-}
-
-.address-value-container:hover {
-  background-color: rgba(60, 60, 60, 0.8);
+  text-align: right; /* Align text to the right */
+  margin-left: auto; /* Push to the right */
+  max-width: 60%; /* Limit width to prevent taking too much space */
+  overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .address-value {
   font-family: monospace;
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block; /* Ensure the text takes full width of its container */
 }
 
 .copy-message {
@@ -92,16 +102,17 @@
 .balance-amount {
   font-size: 24px;
   font-weight: bold;
-  color: #4CAF50;
-  display: inline-block;
-  width: 60px;
+  color: #9eb1f7;
   text-align: center;
+  width: 100%;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
 }
 
 .balance-label {
-  font-size: 14px;
-  color: #ffffff;
-  text-transform: uppercase;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .address-value.clickable {
@@ -111,4 +122,39 @@
 
 .address-value.clickable:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+  .wallet-balance {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .account-info {
+    padding: 8px;
+  }
+
+  .account-details {
+    flex-direction: row; /* Ensure it stays side by side on mobile */
+    align-items: center;
+  }
+
+  .address-value-container {
+    max-width: 70%; /* Adjust as needed to prevent wrapping */
+  }
+
+  .balance-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .balance-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .balance-amount {
+    font-size: 20px;
+  }
 }
