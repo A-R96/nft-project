@@ -1,6 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { transactionService } from '../transactionService';
 
+// New component for the progress bar and remaining NFTs count
+function NFTProgress({ remainingNFTs, totalNFTs }) {
+  const soldPercentage = ((totalNFTs - remainingNFTs) / totalNFTs) * 100;
+
+  const progressBarContainerStyle = {
+    width: '90%',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '10px',
+    margin: '10px auto',
+    height: '20px',
+    position: 'relative',
+    overflow: 'hidden'
+  };
+
+  const progressBarFillStyle = {
+    width: `${soldPercentage}%`,
+    backgroundColor: '#4CAF50',
+    height: '100%',
+    borderRadius: '10px',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    transition: 'width 0.5s ease-in-out'
+  };
+
+  const progressTextStyle = {
+    position: 'absolute',
+    width: '100%',
+    textAlign: 'center',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: '#000000',
+    fontWeight: 'bold',
+    mixBlendMode: 'difference'
+  };
+
+  return (
+    <>
+      <div style={progressBarContainerStyle}>
+        <div style={progressBarFillStyle}></div>
+        <div style={progressTextStyle}>
+          {soldPercentage.toFixed(1)}% Sold
+        </div>
+      </div>
+      <p>Remaining NFTs: {remainingNFTs} out of {totalNFTs}</p>
+    </>
+  );
+}
+
 function SaleSection({ connected, accountAddress, walletData }) {
   const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,6 +67,8 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
   useEffect(() => {
     fetchComponentState();
+    const interval = setInterval(fetchComponentState, 20000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -28,42 +80,24 @@ function SaleSection({ connected, accountAddress, walletData }) {
   }, [price, amount]);
 
   const fetchComponentState = async () => {
-    setLoading(true);
     try {
-      console.log('Attempting to fetch component state...');
       const response = await fetch('https://stokenet.radixdlt.com/state/entity/details', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          addresses: [componentAddress],
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ addresses: [componentAddress] }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
-      console.log('API Response:', data);
-
       if (data.items && data.items.length > 0) {
         const componentState = data.items[0].details.state;
-        console.log('Component State:', componentState);
-
         const priceField = componentState.fields.find(field => field.field_name === 'price');
         if (priceField && priceField.value) {
-          const fetchedPrice = priceField.value;
-          console.log('Fetched Price:', fetchedPrice);
-
-          setPrice(fetchedPrice);
-          setTotalPrice((parseFloat(fetchedPrice) * amount).toFixed(2));
-        } else {
-          throw new Error('Price not found in component state');
+          setPrice(priceField.value);
+          setTotalPrice((parseFloat(priceField.value) * amount).toFixed(2));
         }
 
-        // Get remaining NFTs
         const nftResource = data.items[0].non_fungible_resources.items[0];
         if (nftResource && nftResource.amount) {
           setRemainingNFTs(parseInt(nftResource.amount));
@@ -149,25 +183,6 @@ function SaleSection({ connected, accountAddress, walletData }) {
     borderRadius: '5px',
   };
 
-  const soldPercentage = ((TOTAL_NFTS - remainingNFTs) / TOTAL_NFTS) * 100;
-
-  const progressBarStyle = {
-    width: '100%',
-    backgroundColor: '#e0e0e0',
-    borderRadius: '5px',
-    margin: '10px 0'
-  };
-
-  const progressStyle = {
-    width: `${soldPercentage}%`,
-    backgroundColor: '#4CAF50',
-    height: '24px',
-    borderRadius: '5px',
-    textAlign: 'center',
-    lineHeight: '24px',
-    color: 'white'
-  };
-
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;
 
@@ -180,12 +195,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
         <p>Error: {error}</p>
       ) : (
         <>
-          <div style={progressBarStyle}>
-            <div style={progressStyle}>
-              {soldPercentage.toFixed(1)}% Sold
-            </div>
-          </div>
-          <p>Remaining NFTs: {remainingNFTs} out of {TOTAL_NFTS}</p>
+          <NFTProgress remainingNFTs={remainingNFTs} totalNFTs={TOTAL_NFTS} />
           <p>Price per NFT: {price !== null ? `${price} XRD` : 'N/A'}</p>
           <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
           <div className="amount-input">
