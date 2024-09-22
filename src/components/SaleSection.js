@@ -106,20 +106,23 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
       console.log('Transaction result:', transactionResult);
 
-      if (transactionResult.status === 'CommittedSuccess') {
-        setBuySuccess(true);
-        setTransactionStatus('Transaction successful!');
-        setTimeout(() => {
-          setBuySuccess(false);
-          setTransactionStatus(null);
-        }, 5000); // Clear the message after 5 seconds
-      } else {
-        setTransactionStatus('Transaction failed. Please try again.');
-      }
+      setBuySuccess(true);
+      setTransactionStatus('Transaction successful!');
+      setTimeout(() => {
+        setBuySuccess(false);
+        setTransactionStatus(null);
+      }, 5000); // Clear the message after 5 seconds
 
     } catch (error) {
       console.error('Error processing purchase:', error);
-      setTransactionStatus('Transaction failed: ' + error.message);
+      if (error.message === 'Transaction rejected by user') {
+        setTransactionStatus('Transaction rejected by user. Please try again if you want to proceed.');
+      } else {
+        setTransactionStatus('Transaction failed. Please try again.');
+      }
+      setTimeout(() => {
+        setTransactionStatus(null);
+      }, 5000); // Clear the error message after 5 seconds
     }
   };
 

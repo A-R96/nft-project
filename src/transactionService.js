@@ -40,14 +40,14 @@ class TransactionService {
 
   async sendTransaction(accountAddress, amount, price) {
     console.log('Sending transaction...');
-    if (!this.rtmTemplate) {
-      console.log('RTM template not loaded, loading now...');
-      await this.loadRTMTemplate();
-    }
-
-    const rtm = this.generateRTM(accountAddress, amount, price);
-
     try {
+      if (!this.rtmTemplate) {
+        console.log('RTM template not loaded, loading now...');
+        await this.loadRTMTemplate();
+      }
+
+      const rtm = this.generateRTM(accountAddress, amount, price);
+
       console.log('Calling rdt.walletApi.sendTransaction...');
       console.log('Transaction manifest:', rtm);
       const result = await rdt.walletApi.sendTransaction({
@@ -58,8 +58,12 @@ class TransactionService {
       console.log('Transaction result:', result);
 
       if (result.isErr()) {
-        console.error('Transaction error:', result.error);
-        throw new Error(result.error.message || 'Transaction failed');
+        console.log('Transaction error:', result.error);
+        if (result.error.error === 'rejectedByUser') {
+          throw new Error('Transaction rejected by user');
+        } else {
+          throw new Error('Transaction failed');
+        }
       }
 
       console.log('Transaction sent successfully:', result.value);
@@ -67,7 +71,7 @@ class TransactionService {
     } catch (error) {
       console.error('Error sending transaction:', error);
       console.error('Error details:', error.message);
-      throw error;
+      throw error; // Re-throw the error to be caught in SaleSection
     }
   }
 }
