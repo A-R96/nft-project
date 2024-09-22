@@ -8,6 +8,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [amount, setAmount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(null);
   const [buySuccess, setBuySuccess] = useState(false);
+  const [transactionStatus, setTransactionStatus] = useState(null);
 
   const componentAddress = 'component_tdx_2_1czaht2c3zpwx2aappaeu6nj8puy5u3mt6z802txf29a2j62r99vs9s';
   const MAX_AMOUNT = 10;
@@ -91,6 +92,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
     console.log('Buy button clicked');
     if (!connected || !accountAddress) {
       console.error('Wallet not connected');
+      setTransactionStatus('Wallet not connected. Please connect your wallet.');
       return;
     }
 
@@ -98,6 +100,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
     console.log('Account address:', accountAddress);
 
     try {
+      setTransactionStatus('Processing transaction...');
       console.log('Calling transactionService.sendTransaction...');
       const transactionResult = await transactionService.sendTransaction(accountAddress, amount, price);
 
@@ -105,12 +108,18 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
       if (transactionResult.status === 'CommittedSuccess') {
         setBuySuccess(true);
-        setTimeout(() => setBuySuccess(false), 2000); // Clear the message after 2 seconds
+        setTransactionStatus('Transaction successful!');
+        setTimeout(() => {
+          setBuySuccess(false);
+          setTransactionStatus(null);
+        }, 5000); // Clear the message after 5 seconds
+      } else {
+        setTransactionStatus('Transaction failed. Please try again.');
       }
 
     } catch (error) {
       console.error('Error processing purchase:', error);
-      setError('Error processing purchase: ' + error.message);
+      setTransactionStatus('Transaction failed: ' + error.message);
     }
   };
 
@@ -131,7 +140,6 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;
-
 
   return (
     <div id="sale">
@@ -164,11 +172,12 @@ function SaleSection({ connected, accountAddress, walletData }) {
           </div>
           <button
             onClick={handleBuy}
-            disabled={amount < 1 || amount > MAX_AMOUNT}
+            disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
             style={buttonStyle}
           >
             {buySuccess ? 'Buy Successful!' : 'Buy NFT'}
           </button>
+          {transactionStatus && <p className="transaction-status">{transactionStatus}</p>}
           <p>Maximum: {MAX_AMOUNT} NFTs per transaction</p>
         </>
       )}
