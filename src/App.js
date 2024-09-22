@@ -88,14 +88,12 @@ function App() {
             <TraitsTable />
             <RaritiesTable />
           </div>
-          {rdtInitialized && (
-            <SaleSection
-              connected={connected}
-              accountAddress={accountAddress}
-              rdt={rdt}
-            />
-          )}
           <WalletBalance connected={connected} walletData={walletData} rdt={rdt} />
+          <SaleSection
+            connected={connected}
+            accountAddress={accountAddress}
+            rdt={rdt}
+          />
           <ImageBanner />
         </div>
       </main>

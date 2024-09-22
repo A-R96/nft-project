@@ -130,6 +130,9 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
   const handleBuy = async () => {
     console.log('Buy button clicked');
+    console.log('SaleSection: Connected status:', connected);
+    console.log('SaleSection: Account address:', accountAddress);
+
     if (!connected || !accountAddress) {
       console.error('Wallet not connected');
       setTransactionStatus('Wallet not connected. Please connect your wallet.');
@@ -148,6 +151,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
       setBuySuccess(true);
       setTransactionStatus('Transaction successful!');
+      setAmount(1); // Reset amount to 1 after successful purchase
       setTimeout(() => {
         setBuySuccess(false);
         setTransactionStatus(null);
@@ -194,7 +198,6 @@ function SaleSection({ connected, accountAddress, walletData }) {
       ) : (
         <>
           <NFTProgress remainingNFTs={remainingNFTs} totalNFTs={TOTAL_NFTS} />
-          <p>Price per NFT: {price !== null ? `${price} XRD` : 'N/A'}</p>
           <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
           <div className="amount-input">
             <label htmlFor="amount">Amount:</label>
@@ -222,7 +225,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
             {buySuccess ? 'Buy Successful!' : 'Buy NFT'}
           </button>
           {transactionStatus && <p className="transaction-status">{transactionStatus}</p>}
-          <p>Maximum: {MAX_AMOUNT} NFTs per transaction</p>
+          <p>Max: {MAX_AMOUNT} per TX</p>
         </>
       )}
     </div>

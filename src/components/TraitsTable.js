@@ -2,14 +2,15 @@ import React from 'react';
 
 function TraitsTable() {
   const traits = {
-    "backgroun body": ["Blue", "Brown", "Green", "Orange", "Pink", "Purple", "Red", "Yellow"],
-    "pup": ["Brown", "Dark Brown", "Light Brown", "Tan"],
-    "nose": ["Brown", "Pink", "Black"],
-    "eyes": ["Angry", "Bored", "Crazy", "Happy", "Sad", "Sleepy", "Sunglasses", "Wink"],
-    "water": ["None", "Ripple", "Splash"],
-    "swag": ["Bow Tie", "Cape", "Hoodie", "None", "Scarf", "Shirt", "Tank Top", "Tuxedo"],
-    "swag2": ["Baseball Cap", "Beanie", "Cowboy Hat", "Crown", "None", "Party Hat", "Top Hat", "Wizard Hat"],
-    "logo": ["CAPYCLUB Logo"]
+    "Background": ["Pale Blue", "Pale Purple", "Pale Cyan", "Pale Pink", "Pale Orange", "Pale Yellow"],
+    "Body": ["Grey", "Light Brown", "Cyan", "Green", "Red", "Purple", "Yellow", "Blue", "White", "Fancy Red", "Fancy Blue", "Fancy Purple", "Glass"],
+    "Pup": ["Brown", "Dark Brown", "Light Brown", "Tan"],
+    "Nose": ["Brown", "Pink", "Black"],
+    "Eyes": ["Angry", "Bored", "Crazy", "Happy", "Sad", "Sleepy", "Sunglasses", "Wink"],
+    "Water": ["None", "Ripple", "Splash"],
+    "Swag": ["Bow Tie", "Cape", "Hoodie", "None", "Scarf", "Shirt", "Tank Top", "Tuxedo"],
+    "Swag2": ["Baseball Cap", "Beanie", "Cowboy Hat", "Crown", "None", "Party Hat", "Top Hat", "Wizard Hat"],
+    "Logo": ["CAPYCLUB Logo"]
   };
 
   return (
