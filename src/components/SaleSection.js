@@ -59,8 +59,8 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [transactionStatus, setTransactionStatus] = useState(null);
   const [remainingNFTs, setRemainingNFTs] = useState(0);
 
-  const TOTAL_NFTS = 243;
-  const componentAddress = 'component_tdx_2_1czaht2c3zpwx2aappaeu6nj8puy5u3mt6z802txf29a2j62r99vs9s';
+  const TOTAL_NFTS = 249;
+  const componentAddress = 'component_tdx_2_1crkgyn5vtdc2j83n8tjmt2xp35tgx8ra5uh5eauqtm87fg7pvcvleh';
   const MAX_AMOUNT = 10;
 
   useEffect(() => {

@@ -12,7 +12,7 @@ function WalletBalance({ connected, walletData, rdt }) {
 
   const fetchBalances = useCallback(async (address) => {
     const xrdAddress = 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc';
-    const nftAddress = 'resource_tdx_2_1n27lvs77duf0yeqwl3jnwxphq6djrl6x5xh27wg6lt4atqwz46nves';
+    const nftAddress = 'resource_tdx_2_1ngsq69n0tedv03csg4mwt0cnt0jsq3gqz0phylaupmwdgr6jkrx52e';
 
     try {
       console.log('Fetching balances for account:', address);
