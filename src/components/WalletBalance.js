@@ -113,6 +113,7 @@ function WalletBalance({ connected, walletData, rdt }) {
     }
 
     const fullAddress = walletData?.accounts?.[0]?.address || '';
+    const dashboardUrl = `https://stokenet-dashboard.radixdlt.com/account/${fullAddress}`;
 
     return (
       <>
@@ -120,17 +121,15 @@ function WalletBalance({ connected, walletData, rdt }) {
           <div className="connection-status">Connected</div>
           <div className="account-details">
             <span className="account-label">{walletData?.accounts?.[0]?.label || ''}</span>
-            <span
+            <a
+              href={dashboardUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="address-value-container"
-              onClick={() => copyToClipboard(fullAddress)}
-              title="Click to copy full address"
+              title="Click to view on Radix Dashboard"
             >
-              {copySuccess ? (
-                <span className="copy-message">Copied!</span>
-              ) : (
-                <span className="address-value">{formatAddress(fullAddress)}</span>
-              )}
-            </span>
+              <span className="address-value">{formatAddress(fullAddress)}</span>
+            </a>
           </div>
         </div>
         <div className="balance-container">

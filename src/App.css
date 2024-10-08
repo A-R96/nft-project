@@ -635,3 +635,15 @@ html {
 #sale {
   margin-top: 20px; /* Adjust as needed */
 }
+
+.address-value-container {
+  background-color: rgba(45, 45, 45, 0.8);
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid #333;
+  text-align: right;
+  margin-left: auto;
+  max-width: 60%;
+  overflow: hidden;
+  text-decoration: none;
+}
