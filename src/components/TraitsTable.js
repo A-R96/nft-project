@@ -2,15 +2,15 @@ import React from 'react';
 
 function TraitsTable() {
   const traits = {
-    "Background": ["Pale Blue", "Pale Purple", "Pale Cyan", "Pale Pink", "Pale Orange", "Pale Yellow"],
-    "Body": ["Grey", "Light Brown", "Cyan", "Green", "Red", "Purple", "Yellow", "Blue", "White", "Fancy Red", "Fancy Blue", "Fancy Purple", "Glass"],
-    "Pup": ["Brown", "Dark Brown", "Light Brown", "Tan"],
-    "Nose": ["Brown", "Pink", "Black"],
-    "Eyes": ["Angry", "Bored", "Crazy", "Happy", "Sad", "Sleepy", "Sunglasses", "Wink"],
-    "Water": ["None", "Ripple", "Splash"],
-    "Swag": ["Bow Tie", "Cape", "Hoodie", "None", "Scarf", "Shirt", "Tank Top", "Tuxedo"],
-    "Swag2": ["Baseball Cap", "Beanie", "Cowboy Hat", "Crown", "None", "Party Hat", "Top Hat", "Wizard Hat"],
-    "Logo": ["CAPYCLUB Logo"]
+    "Background": ["Orange", "Chartreuse", "Green", "Salmon", "Yellow", "Blue", "Pink"],
+    "Water": ["Purple", "Red", "Orange", "Green", "Cyan", "Yellow", "Blue"],
+    "Body": ["Dull Orange", "Dull Cyan", "Dull Pink", "Grey", "Cyan", "Dull Blue", "Dull Green", "Dull Purple", "Dull Red", "Orange", "Yellow", "Blue", "Green", "Red", "Purle", "Magenta", "Clear"],
+    "Outline": ["Black"],
+    "Shadows": ["Normal", "Squigles", "Dots", "Stripes"],
+    "Mouth": ["Donkey Teeth", "Chompers", "Normal", "Tongue", "Grin", "Nervous", "Smile", "Dino Mouth", "Weak Tongue", "Dog Nose"],
+    "Eyes": ["Mean", "Normal", "Angry", "Stoned", "Squint", "Bulge", "Dull", "Small", "Half", "Cool", "Long", "Pharaoh", "Wierd"],
+    "Swag": ["Bandana", "Goggles", "Chain", "Collar", "Earring", "Earrings", "Crown", "Headphones", "None"],
+    "Pup": ["Purple", "Yellow", "Grey", "Green", "Cyan", "Orange", "Blue", "None"],
   };
 
   return (

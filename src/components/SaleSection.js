@@ -175,15 +175,50 @@ function SaleSection({ connected, accountAddress, walletData }) {
   };
 
   const buttonStyle = {
-    padding: '10px 20px',
+    padding: '12px 24px',
     fontSize: '16px',
+    fontWeight: 'bold',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
+    transition: 'all 0.3s ease',
     backgroundColor: buySuccess ? '#4CAF50' : '#6c87e7',
     color: 'white',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '50px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    outline: 'none',
+    position: 'relative',
+    overflow: 'hidden',
   };
+
+  const buttonHoverStyle = {
+    ...buttonStyle,
+    backgroundColor: buySuccess ? '#45a049' : '#5a73d8',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 6px 8px rgba(0, 0, 0, 0.15)',
+  };
+
+  const maxButtonStyle = {
+    padding: '8px 16px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    backgroundColor: '#f0f0f0',
+    color: '#333',
+    border: 'none',
+    borderRadius: '20px',
+    marginLeft: '10px',
+    outline: 'none',
+  };
+
+  const maxButtonHoverStyle = {
+    ...maxButtonStyle,
+    backgroundColor: '#e0e0e0',
+    transform: 'translateY(-1px)',
+  };
+
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMaxHovered, setIsMaxHovered] = useState(false);
 
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;
@@ -212,7 +247,9 @@ function SaleSection({ connected, accountAddress, walletData }) {
             />
             <button
               onClick={handleSetMaxAmount}
-              className="max-button"
+              style={isMaxHovered ? maxButtonHoverStyle : maxButtonStyle}
+              onMouseEnter={() => setIsMaxHovered(true)}
+              onMouseLeave={() => setIsMaxHovered(false)}
             >
               Max
             </button>
@@ -220,12 +257,26 @@ function SaleSection({ connected, accountAddress, walletData }) {
           <button
             onClick={handleBuy}
             disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
-            style={buttonStyle}
+            style={isHovered ? buttonHoverStyle : buttonStyle}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            {buySuccess ? 'Buy Successful!' : 'Buy NFT'}
+            {buySuccess ? 'Success!' : 'Buy Now'}
+            <span
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: isHovered ? '300px' : '0',
+                height: isHovered ? '300px' : '0',
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '50%',
+                transition: 'all 0.5s ease',
+              }}
+            />
           </button>
-          {transactionStatus && <p className="transaction-status">{transactionStatus}</p>}
-          <p>Max: {MAX_AMOUNT} per TX</p>
+          {transactionStatus && <p>{transactionStatus}</p>}
         </>
       )}
     </div>
