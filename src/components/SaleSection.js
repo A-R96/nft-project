@@ -6,24 +6,26 @@ function NFTProgress({ remainingNFTs, totalNFTs }) {
   const soldPercentage = ((totalNFTs - remainingNFTs) / totalNFTs) * 100;
 
   const progressBarContainerStyle = {
-    width: '90%',
-    backgroundColor: '#e0e0e0',
-    borderRadius: '10px',
-    margin: '10px auto',
-    height: '20px',
+    width: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: '20px',
+    margin: '20px 0',
+    height: '30px',
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2) inset'
   };
 
   const progressBarFillStyle = {
     width: `${soldPercentage}%`,
-    backgroundColor: '#4CAF50',
+    background: 'linear-gradient(90deg, #6c87e7 0%, #4CAF50 100%)',
     height: '100%',
-    borderRadius: '10px',
+    borderRadius: '20px',
     position: 'absolute',
     left: 0,
     top: 0,
-    transition: 'width 0.5s ease-in-out'
+    transition: 'width 0.5s ease-in-out',
+    boxShadow: '0 0 10px rgba(108, 135, 231, 0.7)'
   };
 
   const progressTextStyle = {
@@ -33,18 +35,24 @@ function NFTProgress({ remainingNFTs, totalNFTs }) {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    color: '#000',
+    color: '#ffffff',
     fontWeight: 'bold',
     textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
-    fontSize: '14px'
+    fontSize: '14px',
+    zIndex: 1
   };
 
   return (
-    <div style={progressBarContainerStyle}>
-      <div style={progressBarFillStyle}></div>
-      <div style={progressTextStyle}>
-        {soldPercentage.toFixed(1)}%
+    <div>
+      <div style={progressBarContainerStyle}>
+        <div style={progressBarFillStyle}></div>
+        <div style={progressTextStyle}>
+          {soldPercentage.toFixed(1)}%
+        </div>
       </div>
+      <p style={{ textAlign: 'center', marginTop: '10px', color: '#ffffff' }}>
+        {remainingNFTs} / {totalNFTs} NFTs remaining
+      </p>
     </div>
   );
 }
@@ -234,48 +242,52 @@ function SaleSection({ connected, accountAddress, walletData }) {
         <>
           <NFTProgress remainingNFTs={remainingNFTs} totalNFTs={TOTAL_NFTS} />
           <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
-          <div className="amount-input">
-            <label htmlFor="amount">Amount:</label>
-            <input
-              type="number"
-              id="amount"
-              min="1"
-              max={MAX_AMOUNT}
-              value={amount}
-              onChange={handleAmountChange}
-              onBlur={handleAmountBlur}
-            />
+          <div className="amount-input-container">
+            <div className="amount-input">
+              <label htmlFor="amount">Amount:</label>
+              <input
+                type="number"
+                id="amount"
+                min="1"
+                max={MAX_AMOUNT}
+                value={amount}
+                onChange={handleAmountChange}
+                onBlur={handleAmountBlur}
+              />
+              <button
+                onClick={handleSetMaxAmount}
+                style={isMaxHovered ? maxButtonHoverStyle : maxButtonStyle}
+                onMouseEnter={() => setIsMaxHovered(true)}
+                onMouseLeave={() => setIsMaxHovered(false)}
+              >
+                Max
+              </button>
+            </div>
+          </div>
+          <div className="buy-button-container">
             <button
-              onClick={handleSetMaxAmount}
-              style={isMaxHovered ? maxButtonHoverStyle : maxButtonStyle}
-              onMouseEnter={() => setIsMaxHovered(true)}
-              onMouseLeave={() => setIsMaxHovered(false)}
+              onClick={handleBuy}
+              disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
+              style={isHovered ? buttonHoverStyle : buttonStyle}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              Max
+              {buySuccess ? 'Success!' : 'Buy Now'}
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: isHovered ? '300px' : '0',
+                  height: isHovered ? '300px' : '0',
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  borderRadius: '50%',
+                  transition: 'all 0.5s ease',
+                }}
+              />
             </button>
           </div>
-          <button
-            onClick={handleBuy}
-            disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
-            style={isHovered ? buttonHoverStyle : buttonStyle}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            {buySuccess ? 'Success!' : 'Buy Now'}
-            <span
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: isHovered ? '300px' : '0',
-                height: isHovered ? '300px' : '0',
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                borderRadius: '50%',
-                transition: 'all 0.5s ease',
-              }}
-            />
-          </button>
           {transactionStatus && <p>{transactionStatus}</p>}
         </>
       )}

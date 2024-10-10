@@ -39,13 +39,13 @@ body {
 }
 
 header {
-  background-color: rgba(218, 172, 143, 0.75); /* #daac8f with 80% opacity */
+  background-color: rgba(218, 172, 143, 0.6); /* Increased transparency */
   padding: 20px;
   margin-bottom: 30px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
 }
 
@@ -71,12 +71,12 @@ nav a {
 }
 
 main {
-  background-color: rgba(218, 172, 143, 0.75); /* #daac8f with 80% opacity */
+  background-color: rgba(218, 172, 143, 0.6); /* Increased transparency */
   padding: 20px;
   border-radius: 8px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -85,8 +85,10 @@ main {
   box-sizing: border-box; /* Include padding in the width calculation */
 }
 
-main * {
-  color: #ffffff;
+/* Adjust text color for better readability */
+header *, main * {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tables-container {
@@ -146,56 +148,25 @@ input[type="number"] {
 }
 
 #sale {
-  background-color: rgba(167, 133, 111, .9); /* This matches the table background color */
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center; /* Center the content */
-  max-width: 400px; /* Limit the width for better appearance */
-  margin: 0 auto; /* Center the section horizontally */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px; /* You can adjust this value */
-  margin: 0 auto 20px;
-  box-sizing: border-box;
+  background-color: rgba(218, 172, 143, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+  margin-top: 20px;
+  text-align: center;
 }
 
 #sale h2 {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   margin-bottom: 20px;
 }
 
-#sale div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-#sale label {
-  font-weight: bold;
-}
-
-#sale input[type="number"] {
-  width: 60px;
-  padding: 5px;
-  border: 1px solid #555;
-  background-color: #333;
-  color: white;
-  border-radius: 4px;
-}
-
-#sale button {
-  background-color: #6c87e7;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
+#sale p {
+  color: #ffffff;
+  margin-bottom: 15px;
 }
 
 header h1, nav a, main {
@@ -745,6 +716,7 @@ html {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
   margin-top: 20px;
+  text-align: center;
 }
 
 #sale h2 {
@@ -756,3 +728,91 @@ html {
 #sale p {
   color: #ffffff;
 }
+
+.amount-input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.amount-input {
+  display: flex;
+  align-items: center;
+}
+
+.amount-input label {
+  margin-right: 10px;
+  color: #ffffff;
+}
+
+.amount-input input {
+  width: 60px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.buy-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Adjust the existing button styles if needed */
+
+/* Shared styles for components with similar backgrounds */
+.wallet-balance,
+#sale {
+  background-color: rgba(218, 172, 143, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+  margin-top: 20px;
+  color: #ffffff;
+}
+
+.wallet-balance h2,
+#sale h2,
+#rarities h2 {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Styles for the RaritiesTable */
+.rarities-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: rgba(218, 172, 143, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+}
+
+.rarities-table th,
+.rarities-table td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px;
+  text-align: left;
+  color: #ffffff;
+}
+
+.rarities-table th {
+  background-color: rgba(167, 133, 111, 0.9);
+  font-weight: bold;
+}
+
+.rarities-table tr:nth-child(even) {
+  background-color: rgba(218, 172, 143, 0.6);
+}
+
+.rarities-table tr:hover {
+  background-color: rgba(218, 172, 143, 0.9);
+}
+
+/* ... (keep the rest of your existing styles) ... */
