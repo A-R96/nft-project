@@ -87,10 +87,12 @@ function App() {
           <a href="#project-description">Project Description</a>
           <a href="#tokenomics">Tokenomics</a>
           <a href="#roadmap">Roadmap</a>
-          <a href="#battle">Battle</a>
-          <a href="#mint">Mint</a>
         </nav>
         <img src={process.env.PUBLIC_URL + '/images/title.png'} alt="CAPYCLUB" className="title-overlay" />
+        <div className="button-container">
+          <button className="main-button battle">Battle</button>
+          <button className="main-button mint">Mint</button>
+        </div>
         <div className="social-buttons">
           <a href="#" className="social-button twitter">
             <FaXTwitter />
