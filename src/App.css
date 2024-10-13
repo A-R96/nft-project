@@ -466,29 +466,43 @@ radix-connect-button::part(button) {
 /* Add these styles at the end of your App.css file */
 
 .radix-connect-button-container {
-  position: relative;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
-.radix-connect-button-container [data-radix-popper-content-wrapper] {
-  position: fixed !important;
-  top: 80px !important; /* Adjust based on your header height */
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  margin-left: 0 !important;
-  margin-top: 0 !important;
-  width: 300px !important; /* Adjust this value as needed */
-  max-width: 90vw !important; /* Ensure it doesn't overflow on small screens */
-  max-height: calc(100vh - 100px) !important; /* Adjust 100px based on your needs */
-  overflow-y: auto !important;
+radix-connect-button {
+  --rdx-connect-button-content-side-offset: 0px;
+  --rdx-connect-button-content-align-offset: 10px;
+  --rdx-connect-button-content-available-height: calc(100vh - 40px);
+  --rdx-connect-button-content-available-width: calc(100vw - 40px);
 }
 
-.radix-connect-button-container .radix-connect-button__modal {
+/* Ensure the modal content is also positioned correctly */
+.radix-connect-button__modal {
+  position: static !important;
   transform: none !important;
 }
 
-/* Hide the arrow if it's causing layout issues */
-.radix-connect-button-container [data-radix-popper-arrow-wrapper] {
+/* Hide the arrow if it's causing issues */
+[data-radix-popper-arrow-wrapper] {
   display: none !important;
+}
+
+/* Ensure the button and dropdown are visible */
+.App > .radix-connect-button-container {
+  display: block !important;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  .radix-connect-button-container [data-radix-popper-content-wrapper] {
+    left: 0 !important;
+    top: 100% !important;
+    transform: translateY(10px) !important;
+    width: calc(100vw - 40px) !important; /* Full width minus some padding */
+  }
 }
 
 html {
@@ -837,7 +851,7 @@ html {
 .social-buttons {
   position: absolute;
   top: 20px;
-  right: 20px;
+  left: 20px;
   display: flex;
   gap: 12px;
 }
@@ -916,13 +930,13 @@ html {
 
 .main-button {
   padding: 5px 32px;
-  background-color: #bf925a;
+  background-color: #effee5f9;
   font-size: 20px;
   border: 1px solid #000000;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-shadow: 2px 2px 3px rgb(0, 0, 0);
+  /*text-shadow: 2px 2px 3px rgb(0, 0, 0);*/
   box-shadow:
     0 4px 0 0 rgba(0, 0, 0, 0.3),
     0 8px 0 0 rgba(0, 0, 0, 0.2),
@@ -930,11 +944,11 @@ html {
 }
 
 .battle {
-  color: #ffffff;
+  color: #000000;
 }
 
 .mint {
-  color: #ffffff;
+  color: #000000;
 }
 
 .main-button:hover {
@@ -957,7 +971,7 @@ html {
 .radix-connect-button-container {
   position: absolute;
   top: 20px;
-  left: 20px;
+  right: 20px;
   z-index: 1000;
 }
 
@@ -1008,4 +1022,66 @@ radix-connect-button::part(button) {
     transform: translateY(10px) !important;
     width: calc(100vw - 40px) !important; /* Full width minus some padding */
   }
+}
+
+/* For the social buttons */
+.social-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px; /* Space between social buttons */
+  z-index: 1000;
+}
+
+/* For the Radix Connect button */
+.radix-connect-button-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Ensure the content wrapper has positioning context */
+.content-wrapper {
+  position: relative;
+  /* Your existing styles for content-wrapper */
+}
+
+.about-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('../public/images/background-image.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #000;
+  border-radius: 20px;
+  margin-top: 20px; /* Add some space between the wrappers */
+}
+
+.about-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('../public/images/background-image.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #000;
+  border-radius: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-wrapper h2 {
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
 }

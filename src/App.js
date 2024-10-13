@@ -87,7 +87,7 @@ function App() {
           <radix-connect-button />
         </div>
         <nav className="nav-menu">
-          <a href="#project-description">Project Description</a>
+          <a href="#About">About</a>
           <a href="#tokenomics">Tokenomics</a>
           <a href="#roadmap">Roadmap</a>
         </nav>
