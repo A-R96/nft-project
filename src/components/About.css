@@ -1,0 +1,29 @@
+.about-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.about-container {
+  max-width: 800px;
+  width: 100%;
+  background-color: #c1b1e4d5;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-text h2 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-text p {
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
