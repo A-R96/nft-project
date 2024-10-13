@@ -1,12 +1,15 @@
 /* Add this at the top of the file */
 .App {
   position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* Temporarily hide all components */
+.App > * {
+  display: none;
+}
 
 body, html {
   margin: 0;
