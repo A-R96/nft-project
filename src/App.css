@@ -916,12 +916,13 @@ html {
 
 .main-button {
   padding: 5px 32px;
-  background-color: #ebffba;
+  background-color: #bf925a;
   font-size: 20px;
   border: 1px solid #000000;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-shadow: 2px 2px 3px rgb(0, 0, 0);
   box-shadow:
     0 4px 0 0 rgba(0, 0, 0, 0.3),
     0 8px 0 0 rgba(0, 0, 0, 0.2),
@@ -929,11 +930,11 @@ html {
 }
 
 .battle {
-  color: #000000;
+  color: #ffffff;
 }
 
 .mint {
-  color: #000000;
+  color: #ffffff;
 }
 
 .main-button:hover {
@@ -950,4 +951,61 @@ html {
     0 2px 0 0 rgba(0, 0, 0, 0.3),
     0 4px 0 0 rgba(0, 0, 0, 0.2),
     0 6px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Add this new style for the Radix connect button container */
+.radix-connect-button-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* Adjust the Radix connect button styles */
+radix-connect-button::part(button) {
+  background-color: #0000FF !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Target the dropdown container */
+.radix-connect-button-container [data-radix-popper-content-wrapper] {
+  position: absolute !important;
+  top: 0 !important; /* Align with the top of the button */
+  left: 100% !important; /* Position to the right of the button */
+  transform: translateX(10px) !important; /* Add a small gap */
+  margin: 0 !important;
+  width: 300px !important; /* Set a fixed width */
+}
+
+/* Ensure the dropdown content is not cut off */
+.radix-connect-button-container .radix-connect-button__modal {
+  max-height: calc(100vh - 40px) !important;
+  overflow-y: auto !important;
+}
+
+/* Hide the arrow if it's causing layout issues */
+.radix-connect-button-container [data-radix-popper-arrow-wrapper] {
+  display: none !important;
+}
+
+/* Ensure the button and dropdown are visible */
+.App > .radix-connect-button-container {
+  display: block !important;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  .radix-connect-button-container [data-radix-popper-content-wrapper] {
+    left: 0 !important;
+    top: 100% !important;
+    transform: translateY(10px) !important;
+    width: calc(100vw - 40px) !important; /* Full width minus some padding */
+  }
 }

@@ -83,6 +83,9 @@ function App() {
   return (
     <div className="App">
       <div className="content-wrapper">
+        <div className="radix-connect-button-container">
+          <radix-connect-button />
+        </div>
         <nav className="nav-menu">
           <a href="#project-description">Project Description</a>
           <a href="#tokenomics">Tokenomics</a>
