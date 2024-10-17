@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { DataRequestBuilder } from "@radixdlt/radix-dapp-toolkit";
 import About from './components/About';
 import Tokenomics from './components/Tokenomics';
-import Roadmap from './components/roadmap';
+import Roadmap from './components/Roadmap';
 import Header from './components/Header';
 import TraitsTable from './components/TraitsTable';
 import RaritiesTable from './components/RaritiesTable';
@@ -13,6 +13,7 @@ import ImageBanner from './components/ImageBanner';
 import { rdt } from './radixConfig';
 import './App.css';
 import { FaInstagram, FaXTwitter, FaTelegram } from 'react-icons/fa6';
+import Battle from './components/Battle';
 
 function MainContent() {
   const [walletData, setWalletData] = useState(null);
@@ -84,10 +85,6 @@ function MainContent() {
 
   return (
     <>
-      <div className="button-container">
-        <button className="main-button battle">Battle</button>
-        <button className="main-button mint">Mint</button>
-      </div>
       {/* Temporary placeholder div */}
       <div style={{ height: '100%', width: '100%' }}></div>
     </>
@@ -96,8 +93,16 @@ function MainContent() {
 
 function App() {
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/' || location.pathname === '/nft-project';
   const isTokenomicsPage = location.pathname === '/tokenomics';
+  const navigate = useNavigate();
+  const [connected, setConnected] = useState(false);
+  const [accountAddress, setAccountAddress] = useState('');
+  const [walletData, setWalletData] = useState(null);
+
+  const handleMintClick = () => {
+    navigate('/sale');
+  };
 
   return (
     <div className={`App ${isTokenomicsPage ? 'tokenomics-page' : ''}`}>
@@ -109,34 +114,49 @@ function App() {
           <Link to="/roadmap">Roadmap</Link>
         </nav>
 
-        {!isTokenomicsPage && (
-          <>
-            <div className="radix-connect-button-container">
-              <radix-connect-button />
-            </div>
-            {isHomePage && (
-              <img src={process.env.PUBLIC_URL + '/images/title.png'} alt="CAPYCLUB" className="title-overlay" />
-            )}
-            <div className="social-buttons">
-              <a href="#" className="social-button twitter">
-                <FaXTwitter />
-              </a>
-              <a href="#" className="social-button telegram">
-                <FaTelegram />
-              </a>
-              <a href="#" className="social-button instagram">
-                <FaInstagram />
-              </a>
-            </div>
-          </>
-        )}
+        <div className="scrollable-content">
+          <div className="radix-connect-button-container">
+            <radix-connect-button />
+          </div>
 
-        <Routes>
-          <Route path="/" element={<MainContent />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/tokenomics" element={<Tokenomics />} />
-          <Route path="/roadmap" element={<Roadmap />} />
-        </Routes>
+          {isHomePage && (
+            <>
+              <img src={process.env.PUBLIC_URL + '/images/title.png'} alt="CAPYCLUB" className="title-overlay" />
+              <div className="button-container">
+                <button className="main-button battle" onClick={() => navigate('/battle')}>Battle</button>
+                <button className="main-button mint" onClick={handleMintClick}>Mint</button>
+              </div>
+            </>
+          )}
+
+          <div className="social-buttons">
+            <a href="#" className="social-button twitter">
+              <FaXTwitter />
+            </a>
+            <a href="#" className="social-button telegram">
+              <FaTelegram />
+            </a>
+            <a href="#" className="social-button instagram">
+              <FaInstagram />
+            </a>
+          </div>
+
+          <Routes>
+            <Route path="/" element={<MainContent />} />
+            <Route path="/nft-project" element={<Navigate to="/" replace />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/tokenomics" element={<Tokenomics />} />
+            <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/battle" element={<Battle />} />
+            <Route path="/sale" element={
+              <SaleSection
+                connected={connected}
+                accountAddress={accountAddress}
+                walletData={walletData}
+              />
+            } />
+          </Routes>
+        </div>
       </div>
     </div>
   );

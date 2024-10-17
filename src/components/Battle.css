@@ -1,0 +1,50 @@
+.battle-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  min-height: calc(100vh - 60px);
+}
+
+.battle-content h2 {
+  color: #333;
+  font-size: 3rem;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.battle-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.battle-leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.battle-leaderboard th,
+.battle-leaderboard td {
+  color: #000000;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.battle-leaderboard th {
+  background-color: rgba(108, 135, 231, 0.8);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.battle-leaderboard tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.battle-leaderboard tr:hover {
+  background-color: rgba(108, 135, 231, 0.2);
+}
