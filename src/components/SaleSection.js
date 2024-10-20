@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { transactionService } from '../transactionService';
 import './SaleSection.css';
+import FetchWallet from './FetchWallet';
 
 // New component for the progress bar and remaining NFTs count
 function NFTProgress({ remainingNFTs, totalNFTs }) {
@@ -21,8 +22,7 @@ function NFTProgress({ remainingNFTs, totalNFTs }) {
   );
 }
 
-
-function SaleSection({ connected, accountAddress, walletData }) {
+function SaleSection({ connected, accountAddress, walletData, rdt }) {
   const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,11 +31,11 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [buySuccess, setBuySuccess] = useState(false);
   const [transactionStatus, setTransactionStatus] = useState(null);
   const [remainingNFTs, setRemainingNFTs] = useState(0);
-  const [isWalletLoading, setIsWalletLoading] = useState(true);
-
   const TOTAL_NFTS = 249;
   const componentAddress = 'component_tdx_2_1crkgyn5vtdc2j83n8tjmt2xp35tgx8ra5uh5eauqtm87fg7pvcvleh';
   const MAX_AMOUNT = 10;
+
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     console.log('SaleSection: Connected status:', connected);
@@ -57,11 +57,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
     }
   }, [price, amount]);
 
-  useEffect(() => {
-    if (walletData !== null) {
-      setIsWalletLoading(false);
-    }
-  }, [walletData]);
+
 
   const fetchComponentState = async () => {
     try {
@@ -160,14 +156,8 @@ function SaleSection({ connected, accountAddress, walletData }) {
     setAmount(MAX_AMOUNT);
   };
 
-  const [isHovered, setIsHovered] = useState(false);
-
   if (!connected || !accountAddress) {
     return <div id="sale">Please connect your wallet to buy NFTs.</div>;
-  }
-
-  if (isWalletLoading) {
-    return <div id="sale">Waiting for wallet connection...</div>;
   }
 
   if (loading) return <div id="sale">Loading...</div>;
@@ -218,6 +208,11 @@ function SaleSection({ connected, accountAddress, walletData }) {
               </button>
             </div>
             {transactionStatus && <p>{transactionStatus}</p>}
+            {connected && accountAddress && (
+              <div className="wallet-balance-wrapper">
+                <FetchWallet accountAddress={accountAddress} />
+              </div>
+            )}
           </>
         )}
       </div>

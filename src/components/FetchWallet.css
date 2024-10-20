@@ -1,0 +1,44 @@
+.fetch-wallet {
+  color: white;
+}
+
+.fetch-wallet h3 {
+    margin: 10px auto;
+    font-size: 16px;
+}
+
+.balance-container {
+  display: flex;
+  gap: 20px;
+}
+
+.balance-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balance-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #9eb1f7;
+  text-align: center;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.balance-label {
+  margin: 5px auto;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+@media screen and (max-width: 768px) {
+  .balance-amount {
+    font-size: 20px;
+  }
+}
+

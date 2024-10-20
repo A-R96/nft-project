@@ -5,7 +5,6 @@ import About from './components/About';
 import Tokenomics from './components/Tokenomics';
 import Roadmap from './components/Roadmap';
 import SaleSection from './components/SaleSection';
-import WalletBalance from './components/WalletBalance';
 import { rdt } from './radixConfig';
 import './App.css';
 import { FaInstagram, FaXTwitter, FaTelegram } from 'react-icons/fa6';
