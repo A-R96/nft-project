@@ -3,8 +3,11 @@ import './Tokenomics.css';
 
 function Tokenomics() {
   return (
-    <section id="Tokenomics" className="page-content tokenomics-content">
-      <h2>TOKENOMICS</h2>
+    <section className="page-content tokenomics-content">
+      <div className="tokenomics-container">
+        <h2>Tokenomics</h2>
+        {/* Add your tokenomics content here */}
+      </div>
     </section>
   );
 }

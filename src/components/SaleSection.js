@@ -6,52 +6,15 @@ import './SaleSection.css';
 function NFTProgress({ remainingNFTs, totalNFTs }) {
   const soldPercentage = ((totalNFTs - remainingNFTs) / totalNFTs) * 100;
 
-  const progressBarContainerStyle = {
-    width: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: '20px',
-    margin: '20px 0',
-    height: '30px',
-    position: 'relative',
-    overflow: 'hidden',
-    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2) inset'
-  };
-
-  const progressBarFillStyle = {
-    width: `${soldPercentage}%`,
-    background: 'linear-gradient(90deg, #6c87e7 0%, #4CAF50 100%)',
-    height: '100%',
-    borderRadius: '20px',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    transition: 'width 0.5s ease-in-out',
-    boxShadow: '0 0 10px rgba(108, 135, 231, 0.7)'
-  };
-
-  const progressTextStyle = {
-    position: 'absolute',
-    width: '100%',
-    textAlign: 'center',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    color: '#ffffff',
-    fontWeight: 'bold',
-    textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
-    fontSize: '14px',
-    zIndex: 1
-  };
-
   return (
     <div>
-      <div style={progressBarContainerStyle}>
-        <div style={progressBarFillStyle}></div>
-        <div style={progressTextStyle}>
+      <div className="progress-bar-container">
+        <div className="progress-bar-fill" style={{ width: `${soldPercentage}%` }}></div>
+        <div className="progress-text">
           {soldPercentage.toFixed(1)}%
         </div>
       </div>
-      <p style={{ textAlign: 'center', marginTop: '10px', color: '#ffffff' }}>
+      <p className="nft-remaining">
         {remainingNFTs} / {totalNFTs} NFTs remaining
       </p>
     </div>
@@ -196,51 +159,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
     setAmount(MAX_AMOUNT);
   };
 
-  const buttonStyle = {
-    padding: '12px 24px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    backgroundColor: buySuccess ? '#4CAF50' : '#6c87e7',
-    color: 'white',
-    border: 'none',
-    borderRadius: '50px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    outline: 'none',
-    position: 'relative',
-    overflow: 'hidden',
-  };
-
-  const buttonHoverStyle = {
-    ...buttonStyle,
-    backgroundColor: buySuccess ? '#45a049' : '#5a73d8',
-    transform: 'translateY(-2px)',
-    boxShadow: '0 6px 8px rgba(0, 0, 0, 0.15)',
-  };
-
-  const maxButtonStyle = {
-    padding: '8px 16px',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    backgroundColor: '#f0f0f0',
-    color: '#333',
-    border: 'none',
-    borderRadius: '20px',
-    marginLeft: '10px',
-    outline: 'none',
-  };
-
-  const maxButtonHoverStyle = {
-    ...maxButtonStyle,
-    backgroundColor: '#e0e0e0',
-    transform: 'translateY(-1px)',
-  };
-
   const [isHovered, setIsHovered] = useState(false);
-  const [isMaxHovered, setIsMaxHovered] = useState(false);
 
   if (!connected || !accountAddress) {
     return <div id="sale">Please connect your wallet to buy NFTs.</div>;
@@ -279,9 +198,7 @@ function SaleSection({ connected, accountAddress, walletData }) {
                 />
                 <button
                   onClick={handleSetMaxAmount}
-                  style={isMaxHovered ? maxButtonHoverStyle : maxButtonStyle}
-                  onMouseEnter={() => setIsMaxHovered(true)}
-                  onMouseLeave={() => setIsMaxHovered(false)}
+                  className="max-button"
                 >
                   Max
                 </button>
@@ -291,24 +208,12 @@ function SaleSection({ connected, accountAddress, walletData }) {
               <button
                 onClick={handleBuy}
                 disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
-                style={isHovered ? buttonHoverStyle : buttonStyle}
+                className={`buy-button ${buySuccess ? 'buy-button-success' : 'buy-button-normal'} ${isHovered ? 'buy-button-hover' : ''}`}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 {buySuccess ? 'Success!' : 'Buy Now'}
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: isHovered ? '300px' : '0',
-                    height: isHovered ? '300px' : '0',
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                    borderRadius: '50%',
-                    transition: 'all 0.5s ease',
-                  }}
-                />
+                <span className="buy-button-ripple" />
               </button>
             </div>
             {transactionStatus && <p>{transactionStatus}</p>}

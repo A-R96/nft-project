@@ -109,8 +109,8 @@ function App() {
           <Routes>
             <Route path="/" element={null} />
             <Route path="/nft-project" element={<Navigate to="/" replace />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/tokenomics" element={<Tokenomics />} />
+            <Route path="/about" element={<div className="content-wrapper about-background"><About /></div>} />
+            <Route path="/tokenomics" element={<div className="content-wrapper tokenomics-background"><Tokenomics /></div>} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/traits-and-rarities" element={<TraitsAndRarities />} />
             <Route path="/battle" element={<Battle />} />

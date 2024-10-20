@@ -1,26 +1,22 @@
 .about-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('../../public/images/factory.jpg');
-  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 20px;
-  overflow: hidden;
 }
 
 .about-container {
   max-width: 800px;
   width: 100%;
-  background-color: #988cb2a9;
+  background-color: rgba(152, 140, 178, 0.66);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 40px;
