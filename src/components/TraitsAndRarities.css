@@ -33,3 +33,74 @@ th {
   background-color: rgba(167, 133, 111, 0.9); /* Header background color */
   color: #ffffff; /* Header text color */
 }
+
+
+
+/* Shared styles for TraitsTable and RaritiesTable */
+.traits-table,
+.rarities-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: rgba(218, 172, 143, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+}
+
+.traits-table th,
+.traits-table td,
+.rarities-table th,
+.rarities-table td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px;
+  text-align: left;
+  color: #ffffff;
+}
+
+.traits-table th,
+.rarities-table th {
+  background-color: rgba(167, 133, 111, 0.9);
+  font-weight: bold;
+}
+
+.traits-table tr:nth-child(even),
+.rarities-table tr:nth-child(even) {
+  background-color: rgba(218, 172, 143, 0.6);
+}
+
+.traits-table tr:hover,
+.rarities-table tr:hover {
+  background-color: rgba(218, 172, 143, 0.9);
+}
+
+/* Specific styles for TraitsTable */
+.variants-cell {
+  max-width: 300px;
+  overflow: hidden;
+}
+
+.variants-wrapper {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+  .traits-table,
+  .rarities-table {
+    font-size: 14px;
+  }
+
+  .traits-table th,
+  .traits-table td,
+  .rarities-table th,
+  .rarities-table td {
+    padding: 8px;
+  }
+
+  .variants-cell {
+    max-width: 200px;
+  }
+}

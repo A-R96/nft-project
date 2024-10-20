@@ -1,18 +1,87 @@
-.about-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../../public/images/factory.jpg');
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 20px;
-    overflow: hidden;
+
+
+.sale-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-image: url('../../public/images/factory.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+.sale-container {
+  background-color: rgba(218, 172, 143, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+  max-width: 600px;
+  width: 100%;
+}
+
+.sale-container h2 {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sale-container p {
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.amount-input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.amount-input {
+  display: flex;
+  align-items: center;
+}
+
+.amount-input label {
+  margin-right: 10px;
+  color: #ffffff;
+}
+
+.amount-input input {
+  width: 60px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.buy-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Add any additional styles you need for the NFTProgress component here */
+
+
+
+#sale input[type="number"] {
+    background-color: rgba(42, 42, 42, 0.3);
+    border: 1px solid #555;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 60px; /* Adjust as needed */
+    text-align: center;
+  }
+
+  /* Optional: Style the input on focus */
+  #sale input[type="number"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+  }
