@@ -66,16 +66,23 @@ function SaleSection({ connected, accountAddress, walletData }) {
   const [buySuccess, setBuySuccess] = useState(false);
   const [transactionStatus, setTransactionStatus] = useState(null);
   const [remainingNFTs, setRemainingNFTs] = useState(0);
+  const [isWalletLoading, setIsWalletLoading] = useState(true);
 
   const TOTAL_NFTS = 249;
   const componentAddress = 'component_tdx_2_1crkgyn5vtdc2j83n8tjmt2xp35tgx8ra5uh5eauqtm87fg7pvcvleh';
   const MAX_AMOUNT = 10;
 
   useEffect(() => {
-    fetchComponentState();
-    const interval = setInterval(fetchComponentState, 20000);
-    return () => clearInterval(interval);
-  }, []);
+    console.log('SaleSection: Connected status:', connected);
+    console.log('SaleSection: Account address:', accountAddress);
+    console.log('SaleSection: Wallet data:', walletData);
+
+    if (connected && accountAddress) {
+      fetchComponentState();
+      const interval = setInterval(fetchComponentState, 20000);
+      return () => clearInterval(interval);
+    }
+  }, [connected, accountAddress]);
 
   useEffect(() => {
     if (price !== null && amount !== '') {
@@ -84,6 +91,12 @@ function SaleSection({ connected, accountAddress, walletData }) {
       setTotalPrice(null);
     }
   }, [price, amount]);
+
+  useEffect(() => {
+    if (walletData !== null) {
+      setIsWalletLoading(false);
+    }
+  }, [walletData]);
 
   const fetchComponentState = async () => {
     try {
@@ -227,6 +240,14 @@ function SaleSection({ connected, accountAddress, walletData }) {
 
   const [isHovered, setIsHovered] = useState(false);
   const [isMaxHovered, setIsMaxHovered] = useState(false);
+
+  if (!connected || !accountAddress) {
+    return <div id="sale">Please connect your wallet to buy NFTs.</div>;
+  }
+
+  if (isWalletLoading) {
+    return <div id="sale">Waiting for wallet connection...</div>;
+  }
 
   if (loading) return <div id="sale">Loading...</div>;
   if (error) return <div id="sale">Error: {error}</div>;

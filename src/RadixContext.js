@@ -18,10 +18,6 @@ export function RadixProvider({ children }) {
     initializeRadix();
   }, []);
 
-  if (!radixApi) {
-    return <div>Loading Radix API...</div>;
-  }
-
   return (
     <RadixContext.Provider value={radixApi}>
       {children}

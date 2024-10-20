@@ -11,12 +11,19 @@ import './App.css';
 import { FaInstagram, FaXTwitter, FaTelegram } from 'react-icons/fa6';
 import Battle from './components/Battle';
 import TraitsAndRarities from './components/TraitsAndRarities';
+import { RadixProvider, useRadix } from './RadixContext';
 
-function MainContent() {
+function App() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/' || location.pathname === '/nft-project';
+  const isTokenomicsPage = location.pathname === '/tokenomics';
+  const navigate = useNavigate();
+  const rdt = useRadix();
   const [walletData, setWalletData] = useState(null);
   const [rdtInitialized, setRdtInitialized] = useState(false);
 
   const updateWalletData = useCallback(async () => {
+    if (!rdt || !rdt.walletApi) return;
     try {
       const data = await rdt.walletApi.getWalletData();
       console.log('App: Wallet data fetched:', data);
@@ -24,11 +31,11 @@ function MainContent() {
     } catch (error) {
       console.error('Error fetching wallet data:', error);
     }
-  }, []);
+  }, [rdt]);
 
   useEffect(() => {
     const initializeRdt = async () => {
-      // Wait for rdt to be fully initialized
+      if (!rdt) return;
       while (!rdt.gatewayApi) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
@@ -37,70 +44,29 @@ function MainContent() {
 
     initializeRdt();
 
-    rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
+    if (rdt && rdt.walletApi) {
+      rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
 
-    const subscription = rdt.walletApi.walletData$.subscribe({
-      next: (data) => {
-        console.log('App: Wallet data updated:', data);
-        setWalletData(data);
-      },
-      error: (error) => console.error("Wallet data subscription error:", error),
-    });
+      const subscription = rdt.walletApi.walletData$.subscribe({
+        next: (data) => {
+          console.log('App: Wallet data updated:', data);
+          setWalletData(data);
+        },
+        error: (error) => console.error("Wallet data subscription error:", error),
+      });
 
-    console.log('App: Initial wallet data check...');
-    updateWalletData();
+      console.log('App: Initial wallet data check...');
+      updateWalletData();
 
-    return () => subscription.unsubscribe();
-  }, [updateWalletData]);
-
-  const handleConnectClick = async () => {
-    console.log('App: Connecting wallet...');
-    try {
-      if (rdt && rdt.walletApi) {
-        // Check if the connect method exists
-        if (typeof rdt.walletApi.connect === 'function') {
-          await rdt.walletApi.connect();
-        } else if (typeof rdt.walletApi.requestWalletConnection === 'function') {
-          // Try the alternative method if available
-          await rdt.walletApi.requestWalletConnection();
-        } else {
-          console.error('Wallet connection method not found');
-        }
-      } else {
-        console.error('Radix DApp Toolkit not properly initialized');
-      }
-      
-    } catch (error) {
-      console.error('Error connecting to wallet:', error);
+      return () => subscription.unsubscribe();
     }
-  };
+  }, [rdt, updateWalletData]);
 
   const connected = walletData && walletData.accounts && walletData.accounts.length > 0;
   const accountAddress = connected ? walletData.accounts[0].address : '';
 
   console.log('App: Rendering with walletData =', walletData);
   console.log('App: connected =', connected, 'accountAddress =', accountAddress);
-
-  return (
-    <>
-      {/* Temporary placeholder div */}
-      <div style={{ height: '100%', width: '100%' }}></div>
-    </>
-  );
-}
-
-function App() {
-  const location = useLocation();
-  const isHomePage = location.pathname === '/' || location.pathname === '/nft-project';
-  const isTokenomicsPage = location.pathname === '/tokenomics';
-  const navigate = useNavigate();
-  const [connected, setConnected] = useState(false);
-  const [accountAddress, setAccountAddress] = useState('');
-  const [walletData, setWalletData] = useState(null);
-
-  const handleMintClick = () => {
-    navigate('/sale');
-  };
 
   return (
     <div className={`App ${isTokenomicsPage ? 'tokenomics-page' : ''}`}>
@@ -123,7 +89,7 @@ function App() {
               <img src={process.env.PUBLIC_URL + '/images/title.png'} alt="CAPYCLUB" className="title-overlay" />
               <div className="button-container">
                 <button className="main-button battle" onClick={() => navigate('/battle')}>Battle</button>
-                <button className="main-button mint" onClick={handleMintClick}>Mint</button>
+                <button className="main-button mint" onClick={() => navigate('/sale')}>Mint</button>
               </div>
             </>
           )}
@@ -141,7 +107,7 @@ function App() {
           </div>
 
           <Routes>
-            <Route path="/" element={<MainContent />} />
+            <Route path="/" element={null} />
             <Route path="/nft-project" element={<Navigate to="/" replace />} />
             <Route path="/about" element={<About />} />
             <Route path="/tokenomics" element={<Tokenomics />} />
@@ -165,7 +131,9 @@ function App() {
 export default function AppWrapper() {
   return (
     <Router>
-      <App />
+      <RadixProvider>
+        <App />
+      </RadixProvider>
     </Router>
   );
 }
