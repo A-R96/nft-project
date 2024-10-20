@@ -69,6 +69,7 @@ function MainContent() {
       } else {
         console.error('Radix DApp Toolkit not properly initialized');
       }
+      
     } catch (error) {
       console.error('Error connecting to wallet:', error);
     }
