@@ -1127,3 +1127,17 @@ radix-connect-button::part(button) {
     padding-right: 10px;
   }
 }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto; /* Ensure the body can scroll */
+}
+
+.App {
+  display: flex;
+  flex-direction: column; /* Ensure the app layout is vertical */
+  min-height: 100vh; /* Full height */
+}
+

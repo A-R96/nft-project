@@ -9,11 +9,11 @@ import TraitsTable from './components/TraitsTable';
 import RaritiesTable from './components/RaritiesTable';
 import SaleSection from './components/SaleSection';
 import WalletBalance from './components/WalletBalance';
-import ImageBanner from './components/ImageBanner';
 import { rdt } from './radixConfig';
 import './App.css';
 import { FaInstagram, FaXTwitter, FaTelegram } from 'react-icons/fa6';
 import Battle from './components/Battle';
+import TraitsAndRarities from './components/TraitsAndRarities';
 
 function MainContent() {
   const [walletData, setWalletData] = useState(null);
@@ -112,6 +112,7 @@ function App() {
           <Link to="/about">About</Link>
           <Link to="/tokenomics">Tokenomics</Link>
           <Link to="/roadmap">Roadmap</Link>
+          <Link to="/traits-and-rarities">Traits & Rarities</Link>
         </nav>
 
         <div className="scrollable-content">
@@ -147,6 +148,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/tokenomics" element={<Tokenomics />} />
             <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/traits-and-rarities" element={<TraitsAndRarities />} />
             <Route path="/battle" element={<Battle />} />
             <Route path="/sale" element={
               <SaleSection

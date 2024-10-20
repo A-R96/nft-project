@@ -1,0 +1,35 @@
+.traits-rarities-container {
+  max-height: 80vh; /* Adjust this value as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 20px; /* Optional: Add some padding */
+  background-color: rgba(255, 255, 255, 0.9); /* Optional: Background color for better visibility */
+  border-radius: 10px; /* Optional: Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.traits-rarities-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar for Firefox */
+.traits-rarities-container {
+  scrollbar-width: none; /* Hide scrollbar */
+}
+
+table {
+  width: 100%; /* Ensure the table takes full width */
+  border-collapse: collapse; /* Collapse borders for a cleaner look */
+  overflow: visible; /* Ensure overflow is visible */
+}
+
+th, td {
+  padding: 12px; /* Add padding for better spacing */
+  text-align: left; /* Align text to the left */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+th {
+  background-color: rgba(167, 133, 111, 0.9); /* Header background color */
+  color: #ffffff; /* Header text color */
+}
