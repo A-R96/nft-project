@@ -14,6 +14,3 @@ console.log('RadixDappToolkit initialized:', rdt)
 export const getRdt = () => rdt
 
 export { DataRequestBuilder }
-
-
-
