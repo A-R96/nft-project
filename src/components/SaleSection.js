@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { transactionService } from '../transactionService';
+import './SaleSection.css';
 
 // New component for the progress bar and remaining NFTs count
 function NFTProgress({ remainingNFTs, totalNFTs }) {
@@ -253,66 +254,68 @@ function SaleSection({ connected, accountAddress, walletData }) {
   if (error) return <div id="sale">Error: {error}</div>;
 
   return (
-    <div id="sale">
-      <h2>BUY NFTs</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>Error: {error}</p>
-      ) : (
-        <>
-          <NFTProgress remainingNFTs={remainingNFTs} totalNFTs={TOTAL_NFTS} />
-          <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
-          <div className="amount-input-container">
-            <div className="amount-input">
-              <label htmlFor="amount">Amount:</label>
-              <input
-                type="number"
-                id="amount"
-                min="1"
-                max={MAX_AMOUNT}
-                value={amount}
-                onChange={handleAmountChange}
-                onBlur={handleAmountBlur}
-              />
+    <section id="sale" className="page-content sale-content">
+      <div className="sale-container">
+        <h2>BUY NFTs</h2>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : (
+          <>
+            <NFTProgress remainingNFTs={remainingNFTs} totalNFTs={TOTAL_NFTS} />
+            <p>Total Price: {totalPrice !== null ? `${totalPrice} XRD` : 'N/A'}</p>
+            <div className="amount-input-container">
+              <div className="amount-input">
+                <label htmlFor="amount">Amount:</label>
+                <input
+                  type="number"
+                  id="amount"
+                  min="1"
+                  max={MAX_AMOUNT}
+                  value={amount}
+                  onChange={handleAmountChange}
+                  onBlur={handleAmountBlur}
+                />
+                <button
+                  onClick={handleSetMaxAmount}
+                  style={isMaxHovered ? maxButtonHoverStyle : maxButtonStyle}
+                  onMouseEnter={() => setIsMaxHovered(true)}
+                  onMouseLeave={() => setIsMaxHovered(false)}
+                >
+                  Max
+                </button>
+              </div>
+            </div>
+            <div className="buy-button-container">
               <button
-                onClick={handleSetMaxAmount}
-                style={isMaxHovered ? maxButtonHoverStyle : maxButtonStyle}
-                onMouseEnter={() => setIsMaxHovered(true)}
-                onMouseLeave={() => setIsMaxHovered(false)}
+                onClick={handleBuy}
+                disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
+                style={isHovered ? buttonHoverStyle : buttonStyle}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
               >
-                Max
+                {buySuccess ? 'Success!' : 'Buy Now'}
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: isHovered ? '300px' : '0',
+                    height: isHovered ? '300px' : '0',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '50%',
+                    transition: 'all 0.5s ease',
+                  }}
+                />
               </button>
             </div>
-          </div>
-          <div className="buy-button-container">
-            <button
-              onClick={handleBuy}
-              disabled={amount < 1 || amount > MAX_AMOUNT || !connected}
-              style={isHovered ? buttonHoverStyle : buttonStyle}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              {buySuccess ? 'Success!' : 'Buy Now'}
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: isHovered ? '300px' : '0',
-                  height: isHovered ? '300px' : '0',
-                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                  borderRadius: '50%',
-                  transition: 'all 0.5s ease',
-                }}
-              />
-            </button>
-          </div>
-          {transactionStatus && <p>{transactionStatus}</p>}
-        </>
-      )}
-    </div>
+            {transactionStatus && <p>{transactionStatus}</p>}
+          </>
+        )}
+      </div>
+    </section>
   );
 }
 

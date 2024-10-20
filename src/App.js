@@ -70,7 +70,7 @@ function App() {
 
   return (
     <div className={`App ${isTokenomicsPage ? 'tokenomics-page' : ''}`}>
-      <div className={`content-wrapper ${isTokenomicsPage ? 'no-background' : ''}`}>
+      <div className={`content-wrapper ${isTokenomicsPage ? 'no-background' : ''} ${location.pathname === '/sale' ? 'sale-background' : ''}`}>
         <nav className="nav-menu">
           {!isHomePage && <Link to="/">Home</Link>}
           <Link to="/about">About</Link>

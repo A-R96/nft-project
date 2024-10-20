@@ -1,5 +1,5 @@
 import React from 'react';
-import './Tokenomics.css'; // We'll create this file for the styles
+import './Tokenomics.css';
 
 function Tokenomics() {
   return (
