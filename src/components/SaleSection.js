@@ -21,6 +21,7 @@ function NFTProgress({ remainingNFTs, totalNFTs }) {
   );
 }
 
+
 function SaleSection({ connected, accountAddress, walletData }) {
   const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(true);

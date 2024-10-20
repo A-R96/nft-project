@@ -13,16 +13,6 @@
   background-repeat: no-repeat;
 }
 
-.about-container {
-  max-width: 800px;
-  width: 100%;
-  background-color: rgba(152, 140, 178, 0.66);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .about-text h2 {
   color: #ffffff;
   margin-bottom: 20px;

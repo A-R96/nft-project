@@ -1,20 +1,28 @@
 .traits-rarities-container {
-  max-height: 80vh; /* Adjust this value as needed */
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding: 20px; /* Optional: Add some padding */
-  background-color: rgba(255, 255, 255, 0.9); /* Optional: Background color for better visibility */
-  border-radius: 10px; /* Optional: Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+  max-width: 800px;
+  width: 80%;
+  margin: 80px auto 80px;
+  padding: 30px;
+  background-color: rgba(205, 195, 232, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
 .traits-rarities-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar */
+  display: none;
 }
 
-/* Hide scrollbar for Firefox */
-.traits-rarities-container {
-  scrollbar-width: none; /* Hide scrollbar */
+.traits-rarities-container h2 {
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 table {
@@ -34,60 +42,74 @@ th {
   color: #ffffff; /* Header text color */
 }
 
-
-
 /* Shared styles for TraitsTable and RaritiesTable */
 .traits-table,
 .rarities-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: rgba(218, 172, 143, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.411);
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-bottom: 25px;
 }
 
 .traits-table th,
 .traits-table td,
 .rarities-table th,
 .rarities-table td {
-  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 12px;
   text-align: left;
   color: #ffffff;
+  background-color: rgba(108, 135, 231, 0.2);
 }
 
 .traits-table th,
 .rarities-table th {
-  background-color: rgba(167, 133, 111, 0.9);
+  background-color: rgba(108, 135, 231, 0.6);
   font-weight: bold;
+  border-radius: 10px 10px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.traits-table tr:last-child td,
+.rarities-table tr:last-child td {
+  border-radius: 0 0 10px 10px;
 }
 
 .traits-table tr:nth-child(even),
 .rarities-table tr:nth-child(even) {
-  background-color: rgba(218, 172, 143, 0.6);
+  background-color: rgba(108, 135, 231, 0.3);
+}
+
+.traits-table tr:nth-child(odd),
+.rarities-table tr:nth-child(odd) {
+  background-color: rgba(108, 135, 231, 0.2);
 }
 
 .traits-table tr:hover,
 .rarities-table tr:hover {
-  background-color: rgba(218, 172, 143, 0.9);
+  background-color: rgba(108, 135, 231, 0.4);
 }
 
 /* Specific styles for TraitsTable */
 .variants-cell {
-  max-width: 300px;
-  overflow: hidden;
+  max-width: 250px;
 }
 
 .variants-wrapper {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;  /* Changed from nowrap to normal */
+  overflow: visible;    /* Changed from hidden to visible */
+  word-wrap: break-word; /* Added to ensure long words break */
 }
 
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
+  .traits-rarities-container {
+    width: 90%;
+    margin: 60px auto 60px;
+    padding: 20px;
+  }
+
   .traits-table,
   .rarities-table {
     font-size: 14px;
@@ -97,10 +119,10 @@ th {
   .traits-table td,
   .rarities-table th,
   .rarities-table td {
-    padding: 8px;
+    padding: 10px;
   }
 
   .variants-cell {
-    max-width: 200px;
+    max-width: 150px;  /* Adjusted for smaller screens */
   }
 }
